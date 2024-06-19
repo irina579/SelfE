@@ -6,4 +6,13 @@ module.exports = defineConfig({
       // implement node event listeners here
     },
   },
+  env: {
+   
+
+    login_g: 'global',
+    password_g: 'global',
+
+
+  },
+
 });
