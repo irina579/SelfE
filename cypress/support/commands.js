@@ -23,3 +23,14 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('Login', () => { 
+    cy.session('Login',()=>{
+        cy.visit(Cypress.env('url'))
+        cy.get('[placeholder="Username"]').type(Cypress.env("login"), {delay: 10})
+        cy.get('[placeholder="Password"]').type(Cypress.env("password"), {delay: 10})
+        cy.contains('.btn','Login').click()},
+      {cacheAcrossSpecs: true}
+    ) 
+    cy.visit(Cypress.env('url'))
+  })
