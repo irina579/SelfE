@@ -40,7 +40,7 @@ describe('DASH login', () => {
         cy.log(result_date)
         cy.contains('td', result_date).should('be.visible') //checks the date in format current year-current month
       }) 
-      it.only("User can see TimeSheet report", () => {
+      it("User can see TimeSheet report", () => {
         cy.contains('.nav-link', "Reports").click()
         cy.contains('.dropdown-item', "Timesheet").click()
         cy.get('.pie').eq(0).should('be.visible')
