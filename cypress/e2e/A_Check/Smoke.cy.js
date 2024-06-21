@@ -1,15 +1,12 @@
 describe('Smoke check', () => {
-      let employees=['Бобровская Ирина','Крук Кирилл','Есауленко Алексей', 'Гарайс Владислав','Коронец Виталий','Коршунова Наталья','Мартинович Василий','Янкович Татьяна', 'Юрченко Кристиан', 'Жабурденок Екатерина' ]
-      let employees_eng=['Bobrovskaya','Kruk','Esaulenko', 'Garais','Koronets','Korshunova','Martinovich','Yankovich', 'Yurchenko', 'Zhaburdenok' ]
+      let employees=Cypress.env('employees');
+      let employees_eng=Cypress.env('employees_eng');
+      let projects=Cypress.env('projects');
       before(() => {
         Cypress.session.clearAllSavedSessions()  
       })  
       beforeEach(() => {
       cy.Login()
-      //cy.visit(Cypress.env('url'))
-      //cy.get('[placeholder="Username"]').type(Cypress.env("login"), {delay: 10})
-      //cy.get('[placeholder="Password"]').type(Cypress.env("password"), {delay: 10})
-      //cy.contains('.btn','Login').click()
       cy.viewport(1920, 1080)
       })
       it("User can see user area", () => {
@@ -84,6 +81,13 @@ describe('Smoke check', () => {
         cy.contains('.dropdown-item', "Salaries").click()
         for (let i=0;i<employees_eng.length;i++){
           cy.contains('.router-link-active', employees_eng[i]).scrollIntoView().should('exist')
+        }
+      })
+      it("User can see Projects", () => {
+        cy.contains('.nav-link', "Projects").click()
+        cy.contains('.dropdown-item', "Management").click()
+        for (let i=0;i<projects.length;i++){
+          cy.contains('.sticky-column', projects[i]).scrollIntoView().should('exist')
         }
       })
 })
