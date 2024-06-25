@@ -24,6 +24,7 @@ describe('Smoke check', () => {
         //Utilization
         cy.contains('.card-header', "Utilization").should('be.visible')
         cy.get('.pie').should('be.visible')
+        cy.get('.pie>text').should('not.contain.text','0%')
         //Salary plan
         cy.contains('.card-header', "Salary plan").should('be.visible')
         cy.contains('td', "salary").should('be.visible')
@@ -48,7 +49,8 @@ describe('Smoke check', () => {
         for (let i=0;i<employees.length;i++){
           cy.contains('.list-group-item', employees[i]).scrollIntoView().should('be.visible').click()
           cy.get('[data-bs-toggle="popover"]').eq(0).should('have.text', employees[i])
-          cy.get('[data-bs-toggle="popover"]').last().should('have.text', employees[i]) 
+          cy.get('[data-bs-toggle="popover"]').last().should('have.text', employees[i])
+          cy.get('.pie>text').eq(1).should('not.contain.text','0%')
         }
       })
       it("User can see Utilization report", () => {
