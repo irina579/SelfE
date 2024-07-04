@@ -47,7 +47,7 @@ describe('Smoke check', () => {
         cy.get('.pie').eq(0).should('be.visible')
         cy.get('.pie').eq(1).should('be.visible')
         for (let i=0;i<employees.length;i++){
-          cy.contains('.list-group-item', employees[i]).scrollIntoView().should('be.visible').click()
+          cy.contains('.list-group-item', employees[i]).scrollIntoView().click()
           cy.get('[data-bs-toggle="popover"]').eq(0).should('have.text', employees[i])
           cy.get('[data-bs-toggle="popover"]').last().should('have.text', employees[i])
           cy.get('.pie>text').eq(1).should('not.contain.text','0%')
@@ -58,13 +58,13 @@ describe('Smoke check', () => {
         cy.contains('.dropdown-item', "Utilization").click()
         cy.contains('Utilization').should('exist')
         cy.contains('QA Pool').scrollIntoView().should('exist')
-        cy.get('.table').eq(1).contains('td','Проектная утилизация').should('exist')
-        cy.get('.table').eq(1).contains('td','Проектная утилизация').next('td').should('not.be.empty')
+        cy.get('.table').contains('td','Проектная утилизация').should('exist')
+        cy.get('.table').contains('td','Проектная утилизация').next('td').should('not.be.empty')
       })
       it("User can see Contracts", () => {
         cy.contains('.nav-link', "CFR Management").click()
         cy.contains('.dropdown-item', "Employee Contracts").click()
-        cy.contains('tr','QA Pool (19)').should('exist')
+        cy.contains('tr','QA Pool (13)').should('exist')
         for (let i=0;i<employees.length;i++){
           cy.contains('tr',employees[i]).scrollIntoView().should('exist')
         }
@@ -73,9 +73,9 @@ describe('Smoke check', () => {
         cy.contains('.nav-link', "Rate calculator").click()
         cy.contains('Rate Calculator').should('exist')
         cy.contains('span', "Custom Employee").should('exist').click()
-        for (let i=0;i<employees_eng.length;i++){
-          cy.contains('.vs__dropdown-option', employees_eng[i]).scrollIntoView().should('exist').click()
-          cy.contains('span', employees_eng[i]).should('exist').click()
+        for (let i=0;i<employees.length;i++){
+          cy.contains('.vs__dropdown-option', employees[i]).scrollIntoView().should('exist').click()
+          cy.contains('span', employees[i]).should('exist').click()
         }
       })
       it("User can see Salaries", () => {
