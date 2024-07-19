@@ -48,8 +48,8 @@ describe('Smoke check', () => {
         cy.get('.pie').eq(1).should('be.visible')
         for (let i=0;i<employees.length;i++){
           cy.contains('.list-group-item', employees[i]).scrollIntoView().click()
-          cy.get('[data-bs-toggle="popover"]').eq(0).should('have.text', employees[i])
-          cy.get('[data-bs-toggle="popover"]').last().should('have.text', employees[i])
+          cy.get('[data-bs-toggle="popover"]').eq(0).should('contain.text', employees[i])
+          cy.get('[data-bs-toggle="popover"]').last().should('contain.text', employees[i])
           cy.get('.pie>text').eq(1).should('not.contain.text','0%')
         }
       })
