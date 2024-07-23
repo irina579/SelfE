@@ -2,6 +2,9 @@ describe('Smoke check', () => {
       let employees=Cypress.env('employees');
       let employees_eng=Cypress.env('employees_eng');
       let projects=Cypress.env('projects');
+      let employees_count=Cypress.env('employees_count');
+      let hours_check=Cypress.env('hours_check');
+      let required_hours=Cypress.env('required_hours')
       before(() => {
         Cypress.session.clearAllSavedSessions()  
       })  
@@ -40,7 +43,7 @@ describe('Smoke check', () => {
         cy.log(result_date)
         cy.contains('td', result_date).should('be.visible') //checks the date in format current year-current month
       }) 
-      it("User can see TimeSheet report", () => {
+      it.only("User can see TimeSheet report", () => {
         cy.contains('.nav-link', "Reports").click()
         cy.contains('.dropdown-item', "Timesheet").click()
         cy.get('.list-group-item').should('have.length.greaterThan',1)
@@ -51,6 +54,28 @@ describe('Smoke check', () => {
           cy.get('[data-bs-toggle="popover"]').eq(0).should('contain.text', employees[i])
           cy.get('[data-bs-toggle="popover"]').last().should('contain.text', employees[i])
           cy.get('.pie>text').eq(1).should('not.contain.text','0%')
+          cy.log(hours_check)
+          //check hours are not less than required
+          if (hours_check){
+              cy.get('.pie>text').eq(1).then(($text)=>{
+                let hours=$text.text().trim().substring(0,$text.text().trim().search('h'))*1
+                cy.log(hours)
+                expect(hours).to.be.gte(required_hours).and.be.lte(required_hours*2) //verify hours are not less than required
+
+
+                // let text_trim=$text.text().trim()
+                // cy.log(text_trim)
+                // let hours=text_trim.substring(0,text_trim.search('h')).trim()*1
+                // cy.log('Hours'+hours)
+                // expect(hours).to.be.gte(required_hours).and.be.lte(required_hours*2) //verify hours are not less than required
+              })
+
+
+
+          }
+
+
+
         }
       })
       it("User can see Utilization report", () => {
@@ -64,7 +89,7 @@ describe('Smoke check', () => {
       it("User can see Contracts", () => {
         cy.contains('.nav-link', "CFR Management").click()
         cy.contains('.dropdown-item', "Employee Contracts").click()
-        cy.contains('tr','QA Pool (13)').should('exist')
+        cy.contains('tr','QA Pool ('+employees_count+')').should('exist')
         for (let i=0;i<employees.length;i++){
           cy.contains('tr',employees[i]).scrollIntoView().should('exist')
         }
