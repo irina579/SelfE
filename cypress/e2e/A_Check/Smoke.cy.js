@@ -12,7 +12,7 @@ describe('Smoke check', () => {
       cy.Login()
       cy.viewport(1920, 1080)
       })
-      it("User can see user area", () => {
+      it("User can see User Area", () => {
         //Top menu
         cy.contains('.nav-item', "Dashboard").should('be.visible')
         cy.contains('.nav-item', "FinDep Docs").should('be.visible')
