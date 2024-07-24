@@ -43,7 +43,7 @@ describe('Smoke check', () => {
         cy.log(result_date)
         cy.contains('td', result_date).should('be.visible') //checks the date in format current year-current month
       }) 
-      it.only("User can see TimeSheet report", () => {
+      it("User can see TimeSheet report", () => {
         cy.contains('.nav-link', "Reports").click()
         cy.contains('.dropdown-item', "Timesheet").click()
         cy.get('.list-group-item').should('have.length.greaterThan',1)
@@ -54,28 +54,6 @@ describe('Smoke check', () => {
           cy.get('[data-bs-toggle="popover"]').eq(0).should('contain.text', employees[i])
           cy.get('[data-bs-toggle="popover"]').last().should('contain.text', employees[i])
           cy.get('.pie>text').eq(1).should('not.contain.text','0%')
-          cy.log(hours_check)
-          //check hours are not less than required
-          if (hours_check){
-              cy.get('.pie>text').eq(1).then(($text)=>{
-                let hours=$text.text().trim().substring(0,$text.text().trim().search('h'))*1
-                cy.log(hours)
-                expect(hours).to.be.gte(required_hours).and.be.lte(required_hours*2) //verify hours are not less than required
-
-
-                // let text_trim=$text.text().trim()
-                // cy.log(text_trim)
-                // let hours=text_trim.substring(0,text_trim.search('h')).trim()*1
-                // cy.log('Hours'+hours)
-                // expect(hours).to.be.gte(required_hours).and.be.lte(required_hours*2) //verify hours are not less than required
-              })
-
-
-
-          }
-
-
-
         }
       })
       it("User can see Utilization report", () => {
@@ -115,6 +93,23 @@ describe('Smoke check', () => {
         cy.contains('.dropdown-item', "Management").click()
         for (let i=0;i<projects.length;i++){
           cy.contains('.sticky-column', projects[i]).scrollIntoView().should('exist')
+        }
+      })
+      it("Employees hours verification", () => {
+        if (hours_check){
+          cy.visit('https://aim.belitsoft.com/reports/timesheet')
+          cy.get('.list-group-item').should('have.length.greaterThan',1)
+          for (let i=0;i<employees.length-1;i++){ //Shahun is not checked since T&M
+            cy.contains('.list-group-item', employees[i]).scrollIntoView().click()
+            cy.get('[data-bs-toggle="popover"]').eq(0).should('contain.text', employees[i])
+            cy.get('[data-bs-toggle="popover"]').last().should('contain.text', employees[i])
+            //check hours are not less than required
+            cy.get('.pie>text').eq(1).then(($text)=>{
+              let hours=$text.text().trim().substring(0,$text.text().trim().search('h'))*1
+              cy.log(hours)
+              expect(hours).to.be.gte(required_hours).and.be.lte(required_hours*2) //verify hours are not less than required
+            })
+          }
         }
       })
 })
