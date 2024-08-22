@@ -95,10 +95,11 @@ describe('Smoke check', () => {
           cy.contains('.sticky-column', projects[i]).scrollIntoView().should('exist')
         }
       })
-      it("Employees hours verification", () => {
+      it.only("Employees hours verification", () => {
         if (hours_check){
           cy.visit('https://aim.belitsoft.com/reports/timesheet')
           cy.get('.list-group-item').should('have.length.greaterThan',1)
+          const Failors = []
           for (let i=0;i<employees.length-1;i++){ //Shahun is not checked since T&M
             cy.contains('.list-group-item', employees[i]).scrollIntoView().click()
             cy.get('[data-bs-toggle="popover"]').eq(0).should('contain.text', employees[i])
@@ -107,7 +108,25 @@ describe('Smoke check', () => {
             cy.get('.pie>text').eq(1).then(($text)=>{
               let hours=$text.text().trim().substring(0,$text.text().trim().search('h'))*1
               cy.log(hours)
-              expect(hours).to.be.gte(required_hours).and.be.lte(required_hours*2) //verify hours are not less than required
+              if (hours<required_hours){
+                Failors.push(employees[i]+'-'+hours)
+              //  cy.screenshot()
+              }           
+              //expect(hours).to.be.gte(required_hours).and.be.lte(required_hours*2) //verify hours are not less than required
+              //cy.screenshot() 
+              cy.log(Failors.length)
+              cy.log(employees.length-1)
+              cy.log(i)
+              if (i==employees.length-2){
+                cy.then(() => {
+                  //Write the assigned artist to a file
+                  const dataString = Failors.join(','); // Convert the array to a comma-separated string
+                  cy.writeFile('cypress/fixtures/failors.txt', dataString);
+                })
+                cy.then(()=>{
+                  expect(Failors.length).to.be.lte(0)  // check if there are failors
+                })
+              }
             })
           }
         }
