@@ -95,7 +95,7 @@ describe('Smoke check', () => {
           cy.contains('.sticky-column', projects[i]).scrollIntoView().should('exist')
         }
       })
-      it.only("Employees hours verification", () => {
+      it("Employees hours verification", () => {
         if (hours_check){
           cy.visit('https://aim.belitsoft.com/reports/timesheet')
           cy.get('.list-group-item').should('have.length.greaterThan',1)
@@ -119,7 +119,7 @@ describe('Smoke check', () => {
               cy.log(i)
               if (i==employees.length-2){
                 cy.then(() => {
-                  //Write the assigned artist to a file
+                  //Write array to a file
                   const dataString = Failors.join(','); // Convert the array to a comma-separated string
                   cy.writeFile('cypress/fixtures/failors.txt', dataString);
                 })

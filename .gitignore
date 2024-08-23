@@ -2,5 +2,6 @@ node_modules
 cypress/videos
 cypress/screenshots
 cypress/reports
+cypress/fixtures/failors.txt
 # Ignore Cypress configuration
 cypress.config.js
