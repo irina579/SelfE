@@ -60,9 +60,9 @@ describe('Smoke check', () => {
         cy.contains('.nav-link', "Reports").click()
         cy.contains('.dropdown-item', "Utilization").click()
         cy.contains('Utilization').should('exist')
-        cy.contains('QA Pool').scrollIntoView().should('exist')
-        cy.get('.table').contains('td','Проектная утилизация').should('exist')
-        cy.get('.table').contains('td','Проектная утилизация').next('td').should('not.be.empty')
+        cy.contains('Noventiq Digital').scrollIntoView().should('exist')
+        cy.get('.table').contains('td','Project Utilization').should('exist')
+        cy.get('.table').contains('td','Project Utilization').next('td').should('not.be.empty')
       })
       it("User can see Contracts", () => {
         cy.contains('.nav-link', "CFR Management").click()
