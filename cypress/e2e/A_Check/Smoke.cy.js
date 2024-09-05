@@ -12,7 +12,7 @@ describe('Smoke check', () => {
       cy.Login()
       cy.viewport(1920, 1080)
       })
-      it("User can see User Area", () => {
+      it("User can see User Area and Profile", () => {
         //Top menu
         cy.contains('.nav-item', "Dashboard").should('be.visible')
         cy.contains('.nav-item', "FinDep Docs").should('be.visible')
@@ -28,14 +28,18 @@ describe('Smoke check', () => {
         cy.contains('.card-header', "Utilization").should('be.visible')
         cy.get('.pie').should('be.visible')
         cy.get('.pie>text').should('not.contain.text','0%')
-        //Salary plan
-        cy.contains('.card-header', "Salary plan").should('be.visible')
-        cy.contains('td', "salary").should('be.visible')
         //To do list
         cy.contains('.card-header', "Todo List").should('be.visible')
         //Assignments
         cy.contains('.card-header', "Assignments").should('be.visible')
         cy.contains('td', "DASH > DASH 2024").should('be.visible')
+
+        //Profile
+        cy.get('[aria-label="Additional Menu"]').click()
+        cy.contains('.dropdown-item','Profile').click()
+        //Salary plan
+        cy.contains('.card-header', "Salary plan").should('be.visible')
+        cy.contains('td', "salary").should('be.visible')
         //My salary report sheet (is not final financial information)*
         cy.contains('.card-header', "My salary report sheet (is not final financial information)*").should('be.visible')
         const date = new Date(Date.UTC(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()))
