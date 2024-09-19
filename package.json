@@ -1,6 +1,7 @@
 {
   "devDependencies": {
-    "cypress": "^13.14.2"
+    "cypress": "^13.14.2",
+    "cypress-mochawesome-reporter": "^2.4.0",
   },
   "scripts": {
     "stage_enviroment": "cypress run --config-file cypress.config.js --spec cypress/e2e/A_Check"
