@@ -1,5 +1,8 @@
 {
   "devDependencies": {
     "cypress": "^13.14.2"
+  },
+  "scripts": {
+    "stage_enviroment": "cypress run --config-file configs/cypress.config.js --spec cypress/e2e/A_Check"
   }
 }
