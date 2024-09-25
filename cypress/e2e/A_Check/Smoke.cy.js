@@ -99,7 +99,7 @@ describe('Smoke check', () => {
           cy.contains('.sticky-column', projects[i]).scrollIntoView().should('exist')
         }
       })
-      it.only("Employees hours verification", () => {
+      it("Employees hours verification", () => {
         if (hours_check){
           cy.visit('https://aim.belitsoft.com/reports/timesheet')
           cy.get('.list-group-item').should('have.length.greaterThan',1)
