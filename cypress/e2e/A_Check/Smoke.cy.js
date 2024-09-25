@@ -99,12 +99,12 @@ describe('Smoke check', () => {
           cy.contains('.sticky-column', projects[i]).scrollIntoView().should('exist')
         }
       })
-      it("Employees hours verification", () => {
+      it.only("Employees hours verification", () => {
         if (hours_check){
           cy.visit('https://aim.belitsoft.com/reports/timesheet')
           cy.get('.list-group-item').should('have.length.greaterThan',1)
           const Failors = []
-          for (let i=0;i<employees.length-1;i++){ //Shahun is not checked since T&M
+          for (let i=0;i<employees.length;i++){
             cy.contains('.list-group-item', employees[i]).scrollIntoView().click()
             cy.get('[data-bs-toggle="popover"]').eq(0).should('contain.text', employees[i])
             cy.get('[data-bs-toggle="popover"]').last().should('contain.text', employees[i])
@@ -116,24 +116,27 @@ describe('Smoke check', () => {
                 Failors.push(employees[i]+'-'+hours)
               //  cy.screenshot()
               }           
-              //expect(hours).to.be.gte(required_hours).and.be.lte(required_hours*2) //verify hours are not less than required
-              //cy.screenshot() 
-              cy.log(Failors.length)
-              cy.log(employees.length-1)
-              cy.log(i)
-              if (i==employees.length-2){
+              if (i==employees.length-1){
                 cy.then(() => {
                   //Write array to a file
-                  const dataString = Failors.join(','); // Convert the array to a comma-separated string
+                  const dataString = Failors.join(', '); // Convert the array to a comma-separated string
                   cy.writeFile('cypress/fixtures/failors.txt', dataString);
                 })
-                cy.then(()=>{
-                  expect(Failors.length).to.be.lte(0)  // check if there are failors
+                cy.then(()=>{                   
+                  try {
+                    cy.readFile('cypress/fixtures/failors.txt').then((data) => {
+                    //const dataArrayFromFile = data.split(','); // Split the string into an array using comma as the delimiter
+                    expect(Failors.length).to.be.lte(0,`Custom Error: Some employees have underlogged hours: ${data}`)
+                  })
+                  } catch (error) {                      
+                    cy.log(data)
+                    throw new Error(`Test failed: ${error.message}`);            
+                  }
                 })
-              }
-            })
-          }
+              }     
+          })
         }
-      })
+      }
+    })
 })
  
