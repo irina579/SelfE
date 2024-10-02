@@ -3,8 +3,8 @@ describe('Smoke check', () => {
       let employees_eng=Cypress.env('employees_eng');
       let projects=Cypress.env('projects');
       let employees_count=Cypress.env('employees_count');
-      let hours_check=Cypress.env('hours_check');
-      let required_hours=Cypress.env('required_hours')
+      let manual_hours_check=Cypress.env('manual_hours_check');
+      //let required_hours=Cypress.env('required_hours')
       before(() => {
         Cypress.session.clearAllSavedSessions()  
       })  
@@ -100,43 +100,60 @@ describe('Smoke check', () => {
         }
       })
       it("Employees hours verification", () => {
-        if (hours_check){
-          cy.visit('https://aim.belitsoft.com/reports/timesheet')
-          cy.get('.list-group-item').should('have.length.greaterThan',1)
-          const Failors = []
-          for (let i=0;i<employees.length;i++){
-            cy.contains('.list-group-item', employees[i]).scrollIntoView().click()
-            cy.get('[data-bs-toggle="popover"]').eq(0).should('contain.text', employees[i])
-            cy.get('[data-bs-toggle="popover"]').last().should('contain.text', employees[i])
-            //check hours are not less than required
-            cy.get('.pie>text').eq(1).then(($text)=>{
-              let hours=$text.text().trim().substring(0,$text.text().trim().search('h'))*1
-              cy.log(hours)
-              if (hours<required_hours){
-                Failors.push(employees[i]+'-'+hours)
-              //  cy.screenshot()
-              }           
-              if (i==employees.length-1){
-                cy.then(() => {
-                  //Write array to a file
-                  const dataString = Failors.join(', '); // Convert the array to a comma-separated string
-                  cy.writeFile('cypress/fixtures/failors.txt', dataString);
-                })
-                cy.then(()=>{                   
-                  try {
-                    cy.readFile('cypress/fixtures/failors.txt').then((data) => {
-                    //const dataArrayFromFile = data.split(','); // Split the string into an array using comma as the delimiter
-                    expect(Failors.length).to.be.lte(0,`Custom Error: Some employees have underlogged hours: ${data}`)
+          cy.get('[aria-label="Additional Menu"]').click()
+          cy.intercept('https://aim.belitsoft.com/api/profile/bonus-report').as('grid_list')
+          cy.get('[href="/profile"]').click()
+          cy.wait('@grid_list').then(({response}) => {
+            expect(response.statusCode).to.eq(200)
+            let planned_hours=response.body[0].plan
+            cy.log("The number of Planned hours came from BE - "+planned_hours)
+            let required_hours
+            if (manual_hours_check){
+              required_hours=Cypress.env('required_hours')
+            } else {
+              required_hours=planned_hours-8
+            }
+            cy.log("Required hours - " + required_hours)
+            cy.visit('https://aim.belitsoft.com/reports/timesheet')
+            cy.get('.list-group-item').should('have.length.greaterThan',1)
+            const Failors = []
+            for (let i=0;i<employees.length;i++){
+              cy.contains('.list-group-item', employees[i]).scrollIntoView().click()
+              cy.get('[data-bs-toggle="popover"]').eq(0).should('contain.text', employees[i])
+              cy.get('[data-bs-toggle="popover"]').last().should('contain.text', employees[i])
+              //check hours are not less than required
+              cy.get('.pie>text').eq(1).then(($text)=>{
+                let hours=$text.text().trim().substring(0,$text.text().trim().search('h'))*1
+                cy.log(hours)
+                if (hours<required_hours){
+                  Failors.push(employees[i]+'-'+hours)
+                //  cy.screenshot()
+                }           
+                if (i==employees.length-1){
+                  cy.then(() => {
+                    //Write array to a file
+                    const dataString = Failors.join(', '); // Convert the array to a comma-separated string
+                    cy.writeFile('cypress/fixtures/failors.txt', dataString);
                   })
-                  } catch (error) {                      
-                    cy.log(data)
-                    throw new Error(`Test failed: ${error.message}`);            
-                  }
-                })
-              }     
+                  cy.then(()=>{                   
+                    try {
+                      cy.readFile('cypress/fixtures/failors.txt').then((data) => {
+                      //const dataArrayFromFile = data.split(','); // Split the string into an array using comma as the delimiter
+                      expect(Failors.length).to.be.lte(0,`Custom Error: Some employees have underlogged hours: ${data}`)
+                    })
+                    } catch (error) {                      
+                      cy.log(data)
+                      throw new Error(`Test failed: ${error.message}`);            
+                    }
+                  })
+                }     
+            })
+          }
+
           })
-        }
-      }
+
+
+      
     })
 })
  
