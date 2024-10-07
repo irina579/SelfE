@@ -72,7 +72,7 @@
               });
           });
       }
-  
+
       it("User can see User Area and Profile", () => {
           cy.contains('.nav-item', "Dashboard").should('be.visible');
           cy.contains('.nav-item', "FinDep Docs").should('be.visible');
@@ -163,6 +163,16 @@
           }
       });
   
+      it("User can see Problems in reported hours page", { retries: 0 }, () => {
+        cy.contains('.nav-link', "Reports").click();
+        cy.contains('.dropdown-item', "Problems in reported hours").click();
+        cy.contains('Problems in reported hours').should('exist');
+        cy.contains('Period').scrollIntoView().should('exist');
+        if (dayOfMonth >= 30) {
+          cy.get('.local-striped').should('not.exist');
+        }
+      });
+
       it("Employees hours verification", () => {
           cy.get('[aria-label="Additional Menu"]').click();
           cy.intercept('https://aim.belitsoft.com/api/profile/bonus-report').as('grid_list');
