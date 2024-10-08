@@ -215,7 +215,7 @@
                       const dataString = Failors.join('\n');
                       cy.writeFile('cypress/fixtures/hours_failed.txt', dataString).then(() => {
                           cy.readFile('cypress/fixtures/hours_failed.txt').then((data) => {
-                              expect(Failors.length).to.be.lte(0, `Custom Error: Some employees have less than`+required_hours+`: \n${data}`);
+                              expect(Failors.length).to.be.lte(0, `Custom Error: Some employees have less than `+required_hours+`: \n${data}`);
                           });
                       });
                   } else {
