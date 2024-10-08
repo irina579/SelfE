@@ -151,7 +151,7 @@
           cy.contains('.nav-link', "CFR Management").click();
           cy.contains('.dropdown-item', "Salaries").click();
           for (let i = 0; i < employees_eng.length; i++) {
-              cy.contains('.router-link-active', employees_eng[i]).scrollIntoView().should('exist');
+              cy.contains('.fw-bold', employees_eng[i]).scrollIntoView().should('exist');
           }
       });
   
