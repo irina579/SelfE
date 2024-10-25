@@ -165,8 +165,8 @@
   
       it("User can see Problems in reported hours page", { retries: 0 }, () => {
         cy.contains('.nav-link', "Reports").click();
-        cy.contains('.dropdown-item', "Problems in reported hours").click();
-        cy.contains('Problems in reported hours').should('exist');
+        cy.contains('.dropdown-item', "Problems In Reported Hours").click();
+        cy.contains('Problems In Reported Hours').should('exist');
         cy.contains('Period').scrollIntoView().should('exist');
         if (dayOfMonth >= 30) {
           cy.get('.local-striped').should('not.exist');
