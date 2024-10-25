@@ -6,70 +6,83 @@
       let manual_hours_check = Cypress.env('manual_hours_check');
       const currentDate = new Date();
       const dayOfMonth = currentDate.getDate();
+      let nonBillableTypes = [];
   
       before(() => {
           Cypress.session.clearAllSavedSessions();
       });
   
       beforeEach(() => {
-          cy.Login();
-          cy.viewport(1920, 1080);
-      });
+        // Step 1: Intercept the automatically triggered request and store its response
+        cy.intercept('GET', 'https://aim.belitsoft.com/api/non-billable-types', (req) => {
+          req.continue((res) => {
+            nonBillableTypes = res.body.map(item => item.name); // Extract 'name' field and store in nonBillableTypes
+          });
+        }).as('getNonBillableTypes');
+      
+        // Step 2: Perform login
+        cy.Login();
+      
+        // Step 3: Set the viewport
+        cy.viewport(1920, 1080);
+      
+        // Step 4: Wait for the automatically triggered request after login to complete
+        cy.wait('@getNonBillableTypes');
+      });   
   
       // Condition to skip the test if the day of the month is less than 25
       if (dayOfMonth >= 25) {
-          it("Employees hours Project Types verification", { retries: 0 }, () => {
-              // Visiting the timesheet page
-              cy.visit('https://aim.belitsoft.com/reports/timesheet');
-  
-              // Checking that the list of employees exists and has more than 1 item
-              cy.get('.list-group-item').should('have.length.greaterThan', 1);
-  
-              // Initialize an array for failures
-              let Failors = [];
-  
-              // Iterate through the employees array and click on each employee's list item
-              for (let i = 0; i < employees.length; i++) {
-                  cy.contains('.list-group-item', employees[i]).scrollIntoView().click();
-  
-                  // Initialize a Set to track unique incorrect types for this employee
-                  let incorrectTypes = new Set();
-  
-                  // Once clicked, proceed to check the corresponding row's hours
-                  cy.get('.local-striped').each(($row) => {
-                      cy.wrap($row).find('td').eq(3).invoke('text').then((text) => {
-                          const trimmedText = text.trim();
-  
-                          // If the text is not 'Billable', add the incorrect type to the Set
-                          if (trimmedText !== 'Billable') {
-                              incorrectTypes.add(trimmedText);
-                          }
-                      });
-                  }).then(() => {
-                      // After checking all rows for this employee, log the employee's incorrect types
-                      if (incorrectTypes.size > 0) {
-                          Failors.push(`${employees[i]} - Incorrect Types: ${[...incorrectTypes].join(', ')}`);
-                      }
-                  });
-              }
-  
-              // After all the employees are processed
-              cy.then(() => {
-                  if (Failors.length > 0) {
-                      // Log all failures
-                      cy.log('Failures:', Failors);
-  
-                      // Write failures to a file in one go
-                      const dataString = Failors.join('\n');
-                      cy.writeFile('cypress/fixtures/types_incorrect.txt', dataString).then(() => {
-                          cy.readFile('cypress/fixtures/types_incorrect.txt').then((data) => {
-                              expect(Failors.length).to.be.lte(0, `Custom Error: Some employees have non-billable hours type: \n${data}`);
-                          });
-                      });
-                  } else {
-                      cy.log('All employees have "Billable" hours type.');
+          
+        it("Employees hours Project Types verification", { retries: 0 }, () => {
+            // Step 5: Visiting the timesheet page
+            cy.visit('https://aim.belitsoft.com/reports/timesheet');
+          
+            // Checking that the list of employees exists and has more than 1 item
+            cy.get('.list-group-item').should('have.length.greaterThan', 1);
+          
+            // Initialize an array for failures
+            let Failors = [];
+          
+            // Iterate through the employees array and click on each employee's list item
+            for (let i = 0; i < employees.length; i++) {
+              cy.contains('.list-group-item', employees[i]).scrollIntoView().click();
+          
+              // Check if any of the non-billable text types are present in the table body
+              cy.get('tbody').then(($tbody) => {
+                const tbodyText = $tbody.text();
+                let foundNonBillableTypes = [];
+          
+                // Iterate over nonBillableTypes and find those present in the table text
+                nonBillableTypes.forEach(type => {
+                  if (tbodyText.includes(type)) {
+                    foundNonBillableTypes.push(type);
                   }
+                });
+          
+                // Log the specific types found for the current employee
+                if (foundNonBillableTypes.length > 0) {
+                  Failors.push(`${employees[i]} - Found Non-Billable Type(s): ${foundNonBillableTypes.join(', ')}`);
+                }
               });
+            }
+          
+            // After all the employees are processed
+            cy.then(() => {
+              if (Failors.length > 0) {
+                // Log all failures
+                cy.log('Failures:', Failors);
+          
+                // Write failures to a file in one go
+                const dataString = Failors.join('\n');
+                cy.writeFile('cypress/fixtures/types_incorrect.txt', dataString).then(() => {
+                  cy.readFile('cypress/fixtures/types_incorrect.txt').then((data) => {
+                    expect(Failors.length).to.be.lte(0, `Custom Error: Some employees have non-billable hours type: \n${data}`);
+                  });
+                });
+              } else {
+                cy.log('All employees have passed the verification.');
+              }
+            });
           });
       }
 
