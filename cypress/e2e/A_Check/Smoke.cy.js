@@ -33,7 +33,7 @@
       // Condition to skip the test if the day of the month is less than 25
       if (dayOfMonth >= 25) {
           
-        it.only("Employees hours Project Types verification", { retries: 0 }, () => {
+        it("Employees hours Project Types verification", { retries: 0 }, () => {
             // Step 5: Visiting the timesheet page
             cy.visit('https://aim.belitsoft.com/reports/timesheet');
           
