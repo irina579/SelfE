@@ -33,7 +33,7 @@
       // Condition to skip the test if the day of the month is less than 25
       if (dayOfMonth >= 25) {
           
-        it("Employees hours Project Types verification", { retries: 0 }, () => {
+        it.only("Employees hours Project Types verification", { retries: 0 }, () => {
             // Step 5: Visiting the timesheet page
             cy.visit('https://aim.belitsoft.com/reports/timesheet');
           
@@ -46,6 +46,12 @@
             // Iterate through the employees array and click on each employee's list item
             for (let i = 0; i < employees.length; i++) {
               cy.contains('.list-group-item', employees[i]).scrollIntoView().click();
+              cy.get('.lastRow').scrollIntoView()
+              cy.wait(200)
+              cy.get('.lastRow').scrollIntoView()
+              cy.wait(200)
+              cy.get('.lastRow').scrollIntoView()
+              //cy.contains('2024-10-24')
           
               // Check if any of the non-billable text types are present in the table body
               cy.get('tbody').then(($tbody) => {
@@ -61,7 +67,7 @@
           
                 // Log the specific types found for the current employee
                 if (foundNonBillableTypes.length > 0) {
-                  Failors.push(`${employees[i]} - Found Non-Billable Type(s): ${foundNonBillableTypes.join(', ')}`);
+                  Failors.push(`${employees[i]}: ${foundNonBillableTypes.join(', ')}`);
                 }
               });
             }
