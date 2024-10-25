@@ -34,4 +34,39 @@ Cypress.Commands.add('Login', () => {
       {cacheAcrossSpecs: true}
     ) 
     cy.visit(Cypress.env('url'))
-  })
+  });
+  Cypress.Commands.add('scrollUntilElementsStopIncreasing', (containerSelector, itemSelector) => {
+    let previousCount = 0;
+  
+    const scrollAndCheck = () => {
+      // Get the current number of items
+      cy.get(itemSelector).then(($items) => {
+        const currentCount = $items.length;
+  
+        // If the count is the same as the previous count, we stop scrolling
+        if (currentCount === previousCount) {
+          // Elements count didn't increase, so we are done
+          cy.log(`Scrolling stopped. Total items loaded: ${currentCount}`);
+          return;
+        }
+  
+        // If the count has increased, we continue scrolling
+        previousCount = currentCount;
+  
+        // Scroll to the last visible element within the container
+        cy.get(containerSelector).find(itemSelector).last().scrollIntoView({ ensureScrollable: false });
+  
+        // Wait a bit for elements to load
+        cy.wait(500); // Adjust the wait time as needed for your app
+  
+        // Check again by recursively calling the function
+        scrollAndCheck();
+      });
+    };
+  
+    // Start the scrolling and checking loop
+    scrollAndCheck();
+  });
+  
+
+  

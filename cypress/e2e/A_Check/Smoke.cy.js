@@ -46,13 +46,9 @@
             // Iterate through the employees array and click on each employee's list item
             for (let i = 0; i < employees.length; i++) {
               cy.contains('.list-group-item', employees[i]).scrollIntoView().click();
-              cy.get('.lastRow').scrollIntoView()
-              cy.wait(200)
-              cy.get('.lastRow').scrollIntoView()
-              cy.wait(200)
-              cy.get('.lastRow').scrollIntoView()
-              //cy.contains('2024-10-24')
-          
+
+              cy.scrollUntilElementsStopIncreasing('tbody', 'tr');  //loading virtual list
+
               // Check if any of the non-billable text types are present in the table body
               cy.get('tbody').then(($tbody) => {
                 const tbodyText = $tbody.text();
