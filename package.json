@@ -4,6 +4,8 @@
     "cypress-mochawesome-reporter": "^2.4.0"
   },
   "scripts": {
-    "stage_enviroment": "cypress run --config-file cypress.config.js --spec cypress/e2e/A_Check"
+    "all": "cypress run --config-file cypress.config.js --spec cypress/e2e/A_Check",
+    "smoke": "cypress run --config-file cypress.config.js --spec cypress/e2e/A_Check/Smoke.cy.js",
+    "hours_check": "cypress run --config-file cypress.config.js --spec cypress/e2e/A_Check/EmployeeHours.cy.js"
   }
 }
