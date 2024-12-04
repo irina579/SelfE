@@ -106,7 +106,7 @@ describe('Smoke check', () => {
       }
   });
 
-  it.only("User can see Rate calculator", () => {
+  it("User can see Rate calculator", () => {
       cy.contains('.nav-link', "Rate calculator").click();
       cy.contains('Rate Calculator').should('exist');
       cy.contains('td','Salary').next('td').eq(0).find('input')
