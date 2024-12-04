@@ -23,10 +23,11 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-
+import '@testing-library/cypress/add-commands'
 Cypress.Commands.add('Login', () => { 
     cy.session('Login',()=>{
-        cy.visit(Cypress.env('url'))
+        //cy.visit(Cypress.env('url'))
+        cy.visit('/')
         cy.get('[placeholder="Username"]').type(Cypress.env("login"), {delay: 10})
         cy.get('[placeholder="Password"]').type(Cypress.env("password"), {delay: 10})
         cy.wait(500)
@@ -34,7 +35,7 @@ Cypress.Commands.add('Login', () => {
         cy.contains('.card-header', "Todo List").should('be.visible')},
       {cacheAcrossSpecs: true}
     ) 
-    cy.visit(Cypress.env('url'))
+    cy.visit('/')
   });
   Cypress.Commands.add('RefreshToken',()=>{ //not used for now
     cy.request({

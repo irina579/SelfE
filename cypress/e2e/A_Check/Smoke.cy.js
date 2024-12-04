@@ -38,6 +38,11 @@ describe('Smoke check', () => {
         }
     })
   it("User can see User Area and Profile", () => {
+      cy.findByText('Work Tracks').should('be.visible');
+      cy.findByText('Todo List').should('be.visible');
+      //cy.findAllByText("Utilization").eq(1).should('be.visible'); Also works
+      cy.get('.card').last().findByText('Utilization').should('be.visible')
+      cy.findByText('Assignments').should('be.visible');
       cy.contains('.nav-item', "Dashboard").should('be.visible');
       cy.contains('.nav-item', "FinDep Docs").should('be.visible');
       cy.contains('.nav-item', "Clients").should('be.visible');
@@ -101,14 +106,21 @@ describe('Smoke check', () => {
       }
   });
 
-  it("User can see Rate calculator", () => {
+  it.only("User can see Rate calculator", () => {
       cy.contains('.nav-link', "Rate calculator").click();
       cy.contains('Rate Calculator').should('exist');
+      cy.contains('td','Salary').next('td').eq(0).find('input')
+       .clear()
+       .should('have.value','')
+       .type('1000')
+       .should('have.value','1000')
+      cy.contains('div','Zero Rate:').next().eq(0).should('have.text','13.1') //checks Zero rate
       cy.contains('span', "Custom Employee").should('exist').click();
       for (let i = 0; i < employees.length; i++) {
           cy.contains('.vs__dropdown-option', employees[i]).scrollIntoView().should('exist').click();
           cy.contains('span', employees[i]).should('exist').click();
       }
+      
   });
 
   it("User can see Salaries", () => {
