@@ -19,6 +19,8 @@ class homePage {
         //menu items
         timeSheetItem:()=>cy.contains('.dropdown-item', "Timesheet"),
         utilizationItem:()=>cy.contains('.dropdown-item', "Utilization"),
+        salariesItem:()=>cy.contains('.dropdown-item', "Salaries"),
+        managementItem:()=>cy.contains('.dropdown-item', "Management"),
         //contect check
         percentPie: () => cy.get('.pie'),
         percentPieText:()=>cy.get('.pie>text'),
