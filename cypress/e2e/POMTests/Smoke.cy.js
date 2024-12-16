@@ -6,6 +6,8 @@ import utilizationPage from "../../Pages/utilizationPage";
 import salariesPage from "../../Pages/salaryPage";
 import salaryPage from "../../Pages/salaryPage";
 import projectsPage from "../../Pages/projectsPage";
+import rateCalculatorPage, { navigateToRateCalculatorPage } from "../../Pages/rateCalculatorPage";
+import problemsInReportedHoursPage from "../../Pages/problemsInReportedHoursPage";
 describe('Smoke tests', () => {
     beforeEach(() => {
         cy.visit('/')
@@ -37,5 +39,14 @@ describe('Smoke tests', () => {
     it('User can see Projects', () => {
         projectsPage.navigateToProjectsPage()
         projectsPage.validateContentExists()
+    });   
+    it('User can see Rate Calculator', () => {
+        rateCalculatorPage.navigateToRateCalculatorPage()
+        rateCalculatorPage.validateSalaryUpdate()
+        rateCalculatorPage.validateEmployeesSalaryFilled()
+    });   
+    it('User can see Problems in reported hours page', () => {
+        problemsInReportedHoursPage.navigateToProblemsInReportedHoursPage()
+        problemsInReportedHoursPage.validateContentExists()
     });       
 })
