@@ -7,9 +7,12 @@ describe('Smoke check', () => {
   const currentDate = new Date();
   const dayOfMonth = currentDate.getDate();
   let counter=0;
-
+  let test_data;
   before(() => {
       Cypress.session.clearAllSavedSessions();
+      cy.fixture('test_data').then((data) => {
+        test_data = data;
+        })
   });
 
   beforeEach(() => {
@@ -152,5 +155,26 @@ describe('Smoke check', () => {
       cy.get('.local-striped').should('not.exist');
     }
   });
-
+  it.only("Contract page filters and search work properly", () => {
+    cy.contains('.nav-link', "CFR Management").click();
+    cy.contains('.dropdown-item', "Employee Contracts").click();
+    cy.contains('tr', 'QA Pool (' + employees_count + ')').should('exist');
+    //cy.get('[placeholder="Search by employee name"]')
+    //search among all
+      //search existing employee
+    cy.Search(test_data.search_employee_exists,test_data.contractor)
+      //search non-existing employee
+    cy.findByPlaceholderText('Search by employee name').clear().type(test_data.search_employee_not_exists)
+    cy.contains('td',test_data.search_employee_not_exists).should('not.exist')
+    cy.contains('td',test_data.contractor).should('not.be.visible')
+    //filter by contractors
+    cy.contains('.multiselect__placeholder','Type to search').click()
+    cy.contains('li>span','Contractors').click()
+   // cy.findByPlaceholderText('Search by employee name').clear().type(test_data.contractor)
+    cy.findByPlaceholderText('Search by employee name').clear()
+    cy.contains('td',test_data.contractor).should('be.visible')
+    cy.contains('td',test_data.non_contractor).should('not.be.visible')
+    //search among contractors
+    cy.Search(test_data.contractor,test_data.non_contractor)
+  });
 });  

@@ -44,6 +44,12 @@ Cypress.Commands.add('Login', () => {
     }).then((response) => {
     });
   });
+  Cypress.Commands.add('Search',(search_employee,notsearch_employee)=>{ //search in Salary page
+    cy.findByPlaceholderText('Search by employee name').clear().type(search_employee)
+    cy.contains('td',search_employee).should('be.visible')
+    cy.contains('td',notsearch_employee).should('not.be.visible')
+    cy.contains('tr', 'QA Pool (1)').should('exist');
+  });
   Cypress.Commands.add('scrollUntilElementsStopIncreasing', (containerSelector, itemSelector) => {
     let previousCount = 0;
   
