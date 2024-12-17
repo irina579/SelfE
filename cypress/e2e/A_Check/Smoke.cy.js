@@ -155,11 +155,10 @@ describe('Smoke check', () => {
       cy.get('.local-striped').should('not.exist');
     }
   });
-  it("Contract page filters and search work properly", () => {
+  it("Contract page filters and search work properly (DDT)", () => {
     cy.contains('.nav-link', "CFR Management").click();
     cy.contains('.dropdown-item', "Employee Contracts").click();
     cy.contains('tr', 'QA Pool (' + employees_count + ')').should('exist');
-    //cy.get('[placeholder="Search by employee name"]')
     //search among all
       //search existing employee
     cy.Search(test_data.search_employee_exists,test_data.contractor)

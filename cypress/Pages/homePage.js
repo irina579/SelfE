@@ -20,6 +20,7 @@ class homePage {
         timeSheetItem:()=>cy.contains('.dropdown-item', "Timesheet"),
         utilizationItem:()=>cy.contains('.dropdown-item', "Utilization"),
         salariesItem:()=>cy.contains('.dropdown-item', "Salaries"),
+        contractsItem:()=>cy.contains('.dropdown-item', "Employee Contracts"),
         managementItem:()=>cy.contains('.dropdown-item', "Management"),
         problemsInReportedHoursItem:()=>cy.contains('.dropdown-item', "Problems In Reported Hours"),
         

@@ -8,7 +8,15 @@ import salaryPage from "../../Pages/salaryPage";
 import projectsPage from "../../Pages/projectsPage";
 import rateCalculatorPage, { navigateToRateCalculatorPage } from "../../Pages/rateCalculatorPage";
 import problemsInReportedHoursPage from "../../Pages/problemsInReportedHoursPage";
-describe('Smoke tests', () => {
+import contractsPage from "../../Pages/contractsPage";
+describe('Smoke tests POM', () => {
+    let test_data
+    before(() => {
+       //Cypress.session.clearAllSavedSessions();
+        cy.fixture('test_data').then((data) => {
+          test_data = data;
+          })
+    });
     beforeEach(() => {
         cy.visit('/')
         loginPage.login();
@@ -48,5 +56,14 @@ describe('Smoke tests', () => {
     it('User can see Problems in reported hours page', () => {
         problemsInReportedHoursPage.navigateToProblemsInReportedHoursPage()
         problemsInReportedHoursPage.validateContentExists()
-    });       
+    }); 
+    it('User can see Contracts', () => {
+        contractsPage.navigateToContractsPage()
+        contractsPage.validateContentExists()
+    });  
+    it('Contract page filters and search work properly (DDT)', () => {
+        contractsPage.navigateToContractsPage()
+        contractsPage.validateContentExists()
+        contractsPage.validateFilterAndSearchWorks(test_data.search_employee_exists,test_data.contractor,test_data.contractor,test_data.non_contractor)
+    });        
 })
