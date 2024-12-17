@@ -1,7 +1,8 @@
 node_modules
 cypress/videos
 cypress/screenshots
-cypress/fixtures
+cypress/fixtures/*
+!cypress/fixtures/test_data.json
 cypress/reports
 # Ignore Cypress configuration
 cypress.config.js
