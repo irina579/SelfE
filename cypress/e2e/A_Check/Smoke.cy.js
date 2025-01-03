@@ -3,6 +3,7 @@ describe('Smoke check', () => {
   let employees_eng = Cypress.env('employees_eng');
   let projects = Cypress.env('projects');
   let employees_count = Cypress.env('employees_count');
+  let za_mes=Cypress.env('za_mes');
   let manual_hours_check = Cypress.env('manual_hours_check');
   const currentDate = new Date();
   const dayOfMonth = currentDate.getDate();
@@ -126,11 +127,17 @@ describe('Smoke check', () => {
       
   });
 
-  it("User can see Salaries", () => {
+  it.only("User can see Salaries", () => {
       cy.contains('.nav-link', "CFR Management").click();
       cy.contains('.dropdown-item', "Salaries").click();
       for (let i = 0; i < employees_eng.length; i++) {
           cy.contains('.fw-bold', employees_eng[i]).scrollIntoView().should('exist');
+          if (i==10) { //Alena custom case
+            cy.contains('td a',employees_eng[i]).parent().parent().parent().siblings().eq(2).find('td').eq(3).scrollIntoView().should('have.text',za_mes[i])
+          }
+          else {
+            cy.contains('td a',employees_eng[i]).parent().parent().parent().siblings().eq(0).find('td').eq(3).scrollIntoView().should('have.text',za_mes[i])
+          }
       }
   });
 

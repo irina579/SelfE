@@ -1,7 +1,12 @@
 const homePage = require("./homePage");
+const employees = Cypress.env('employees_eng');
+const za_mes = Cypress.env('za_mes');
 class salaryPage {
     elements = {
         employeeItem: (employee) => cy.contains('.fw-bold', employee),
+        sumItemCustom:(employee)=>cy.contains('td a',employee).parent().parent().parent().siblings().eq(2).find('td').eq(3),
+        sumItem:(employee)=>cy.contains('td a',employee).parent().parent().parent().siblings().eq(0).find('td').eq(3)
+
     };
 
     navigateToSalaryPage() {
@@ -9,10 +14,20 @@ class salaryPage {
         homePage.elements.salariesItem().click()
     };
     validateContentExists() {
-        const employees = Cypress.env('employees_eng');
         employees.forEach((employee) => {
             this.elements.employeeItem(employee).scrollIntoView().should('exist'); 
 
+        });
+    };
+    validateSumCorrect() {
+        employees.forEach((employee, index) => {
+            if (index === 10) {
+                // Handle the exception for employee[10]
+                this.elements.sumItemCustom(employee).scrollIntoView().should('have.text',za_mes[index]);
+            } else {
+                // Default check for all other employees
+                this.elements.sumItem(employee).scrollIntoView().scrollIntoView().should('have.text',za_mes[index]);
+            }
         });
     };
 }
