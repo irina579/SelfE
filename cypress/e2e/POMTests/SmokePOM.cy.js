@@ -40,7 +40,7 @@ describe('Smoke tests POM', () => {
         utilizationPage.navigateToUtilizationReport()
         utilizationPage.validateContentExists()
     });  
-    it.only('User can see Salaries', () => {
+    it('User can see Salaries', () => {
         salaryPage.navigateToSalaryPage()
         salaryPage.validateContentExists()
         salaryPage.validateSumCorrect()

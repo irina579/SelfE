@@ -127,7 +127,7 @@ describe('Smoke check', () => {
       
   });
 
-  it.only("User can see Salaries", () => {
+  it("User can see Salaries", () => {
       cy.contains('.nav-link', "CFR Management").click();
       cy.contains('.dropdown-item', "Salaries").click();
       for (let i = 0; i < employees_eng.length; i++) {
