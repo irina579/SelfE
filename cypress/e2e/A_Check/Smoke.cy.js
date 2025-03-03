@@ -4,6 +4,7 @@ describe('Smoke check', () => {
   let projects = Cypress.env('projects');
   let employees_count = Cypress.env('employees_count');
   let za_mes=Cypress.env('za_mes');
+  let zero_rate_1000=Cypress.env('zero_rate_1000');
   let manual_hours_check = Cypress.env('manual_hours_check');
   const currentDate = new Date();
   const dayOfMonth = currentDate.getDate();
@@ -118,7 +119,7 @@ describe('Smoke check', () => {
        .should('have.value','')
        .type('1000')
        .should('have.value','1000')
-      cy.contains('div','Zero Rate:').next().eq(0).should('have.text','13.1') //checks Zero rate
+      cy.contains('div','Zero Rate:').next().eq(0).should('have.text',zero_rate_1000) //checks Zero rate
       cy.contains('span', "Custom Employee").should('exist').click();
       for (let i = 0; i < employees.length; i++) {
           cy.contains('.vs__dropdown-option', employees[i]).scrollIntoView().should('exist').click();
