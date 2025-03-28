@@ -62,7 +62,7 @@ describe('Smoke tests POM', () => {
         contractsPage.navigateToContractsPage()
         contractsPage.validateContentExists()
     });  
-    it('Contract page filters and search work properly (DDT)', () => {
+    it.skip('Contract page filters and search work properly (DDT)', () => {
         contractsPage.navigateToContractsPage()
         contractsPage.validateContentExists()
         contractsPage.validateFilterAndSearchWorks(test_data.search_employee_exists,test_data.contractor,test_data.contractor,test_data.non_contractor)

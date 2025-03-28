@@ -37,7 +37,7 @@ class homePage {
     };
     validateContentIsNotEmpty() {
         this.elements.percentPie().should('be.visible');
-        this.elements.percentPieText().should('not.contain.text', '0%');
+        this.elements.percentPieText().should('not.have.text', '0%');
         this.elements.assingedProjectText().should('be.visible');
     };
 }
