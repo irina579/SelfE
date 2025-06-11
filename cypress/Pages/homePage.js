@@ -2,7 +2,7 @@ class homePage {
     elements = {
         worktrackLabel: () => cy.findByText('Work Tracks'),
         utilizationLabel: ()=>cy.get('.card').last().findByText('Utilization'),
-        assigmentsLabel: ()=>cy.findByText('Assignments'),
+        assigmentsLabel: ()=>cy.contains('.card-header','Assignments'),
         toDoLabel:()=>cy.findByText('Todo List'),
 //menu
         dashboardMenu: () => cy.contains('.nav-link', 'Dashboard'),

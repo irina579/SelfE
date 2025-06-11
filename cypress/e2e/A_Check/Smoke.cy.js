@@ -2,7 +2,7 @@ describe('Smoke check', () => {
   let employees = Cypress.env('employees');
   let employees_eng = Cypress.env('employees_eng');
   let projects = Cypress.env('projects');
-  let employees_count = Cypress.env('employees_count');
+  let employees_count = Cypress.env('employees_count')-1;
   let za_mes=Cypress.env('za_mes');
   let zero_rate_1000=Cypress.env('zero_rate_1000');
   let manual_hours_check = Cypress.env('manual_hours_check');
@@ -47,7 +47,7 @@ describe('Smoke check', () => {
       cy.findByText('Todo List').should('be.visible');
       //cy.findAllByText("Utilization").eq(1).should('be.visible'); Also works
       cy.get('.card').last().findByText('Utilization').should('be.visible')
-      cy.findByText('Assignments').should('be.visible');
+      cy.contains('.card-header','Assignments').should('be.visible');
       cy.contains('.nav-item', "Dashboard").should('be.visible');
       cy.contains('.nav-item', "FinDep Docs").should('be.visible');
       cy.contains('.nav-item', "Clients").should('be.visible');
@@ -133,8 +133,8 @@ describe('Smoke check', () => {
       cy.contains('.dropdown-item', "Salaries").click();
       for (let i = 0; i < employees_eng.length; i++) {
           cy.contains('.fw-bold', employees_eng[i]).scrollIntoView().should('exist');
-          if (i==10) { //Alena custom case
-            cy.contains('td a',employees_eng[i]).parent().parent().parent().siblings().eq(2).find('td').eq(3).scrollIntoView().should('have.text',za_mes[i])
+          if (i==0 || i==8) { // custom case for ZP on second line
+            cy.contains('td a',employees_eng[i]).parent().parent().parent().siblings().eq(1).find('td').eq(3).scrollIntoView().should('have.text',za_mes[i])
           }
           else {
             cy.contains('td a',employees_eng[i]).parent().parent().parent().siblings().eq(0).find('td').eq(3).scrollIntoView().should('have.text',za_mes[i])
@@ -163,7 +163,7 @@ describe('Smoke check', () => {
       cy.get('.local-striped').should('not.exist');
     }
   });
-  it.skip("Contract page filters and search work properly (DDT)", () => {
+  it("Contract page filters and search work properly (DDT)", () => {
     cy.contains('.nav-link', "CFR Management").click();
     cy.contains('.dropdown-item', "Employee Contracts").click();
     cy.contains('tr', 'QA Pool (' + employees_count + ')').should('exist');

@@ -1,5 +1,5 @@
 const homePage = require("./homePage");
-const pool_count= Cypress.env('employees_count');
+const pool_count= Cypress.env('employees_count')-1;
 class contractsPage {
     elements = {
         poolCounter:(pool_count)=>cy.contains('tr', 'QA Pool (' + pool_count + ')'),       
