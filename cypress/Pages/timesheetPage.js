@@ -20,9 +20,9 @@ class timesheetPage {
     validateEmployeesHoursAreVisible() {
         const employees = Cypress.env('employees');
         employees.forEach((employee) => {
-            this.elements.employeeItem(employee).scrollIntoView().click(); // Replaced direct `cy.contains`
-            this.elements.userRowLabel().eq(0).should('contain.text', employee);
-            this.elements.userRowLabel().last().should('contain.text', employee);
+            this.elements.employeeItem(employee.name).scrollIntoView().click(); // Replaced direct `cy.contains`
+            this.elements.userRowLabel().eq(0).should('contain.text', employee.name);
+            this.elements.userRowLabel().last().should('contain.text', employee.name);
             this.elements.pieText().eq(1).should('not.contain.text', '0%');
         });
     };

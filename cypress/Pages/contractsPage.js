@@ -1,5 +1,5 @@
 const homePage = require("./homePage");
-const pool_count= Cypress.env('employees_count')-1;
+const pool_count= Cypress.env('employees').length;
 class contractsPage {
     elements = {
         poolCounter:(pool_count)=>cy.contains('tr', 'QA Pool (' + pool_count + ')'),       
@@ -18,7 +18,7 @@ class contractsPage {
         this.elements.poolCounter(pool_count).should('exist')
         const employees = Cypress.env('employees');
         employees.forEach((employee) => {
-            this.elements.employeeItem(employee).scrollIntoView().should('exist'); 
+            this.elements.employeeItem(employee.name).scrollIntoView().should('exist'); 
         });
     };
     searchCheck(search_employee,notsearch_employee){

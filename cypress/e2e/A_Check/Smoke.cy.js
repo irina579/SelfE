@@ -1,11 +1,8 @@
 describe('Smoke check', () => {
   let employees = Cypress.env('employees');
-  let employees_eng = Cypress.env('employees_eng');
   let projects = Cypress.env('projects');
-  let employees_count = Cypress.env('employees_count')-1;
-  let za_mes=Cypress.env('za_mes');
+  let employees_count = Cypress.env('employees').length;
   let zero_rate_1000=Cypress.env('zero_rate_1000');
-  let manual_hours_check = Cypress.env('manual_hours_check');
   const currentDate = new Date();
   const dayOfMonth = currentDate.getDate();
   let counter=0;
@@ -86,9 +83,9 @@ describe('Smoke check', () => {
       cy.get('.pie').eq(0).should('be.visible');
       cy.get('.pie').eq(1).should('be.visible');
       for (let i = 0; i < employees.length; i++) {
-          cy.contains('.list-group-item', employees[i]).scrollIntoView().click();
-          cy.get('[data-bs-toggle="popover"]').eq(0).should('contain.text', employees[i]);
-          cy.get('[data-bs-toggle="popover"]').last().should('contain.text', employees[i]);
+          cy.contains('.list-group-item', employees[i].name).scrollIntoView().click();
+          cy.get('[data-bs-toggle="popover"]').eq(0).should('contain.text', employees[i].name);
+          cy.get('[data-bs-toggle="popover"]').last().should('contain.text', employees[i].name);
           cy.get('.pie>text').eq(1).should('not.contain.text', '0%');
       }
   });
@@ -107,7 +104,7 @@ describe('Smoke check', () => {
       cy.contains('.dropdown-item', "Employee Contracts").click();
       cy.contains('tr', 'QA Pool (' + employees_count + ')').should('exist');
       for (let i = 0; i < employees.length; i++) {
-          cy.contains('tr', employees[i]).scrollIntoView().should('exist');
+          cy.contains('tr', employees[i].name).scrollIntoView().should('exist');
       }
   });
 
@@ -122,8 +119,8 @@ describe('Smoke check', () => {
       cy.contains('div','Zero Rate:').next().eq(0).should('have.text',zero_rate_1000) //checks Zero rate
       cy.contains('span', "Custom Employee").should('exist').click();
       for (let i = 0; i < employees.length; i++) {
-          cy.contains('.vs__dropdown-option', employees[i]).scrollIntoView().should('exist').click();
-          cy.contains('span', employees[i]).should('exist').click();
+          cy.contains('.vs__dropdown-option', employees[i].name).scrollIntoView().should('exist').click();
+          cy.contains('span', employees[i].name).should('exist').click();
       }
       
   });
@@ -131,13 +128,13 @@ describe('Smoke check', () => {
   it("User can see Salaries", () => {
       cy.contains('.nav-link', "CFR Management").click();
       cy.contains('.dropdown-item', "Salaries").click();
-      for (let i = 0; i < employees_eng.length; i++) {
-          cy.contains('.fw-bold', employees_eng[i]).scrollIntoView().should('exist');
-          if (i==0 || i==8) { // custom case for ZP on second line
-            cy.contains('td a',employees_eng[i]).parent().parent().parent().siblings().eq(1).find('td').eq(3).scrollIntoView().should('have.text',za_mes[i])
+      for (let i = 0; i < employees.length; i++) {
+          cy.contains('.fw-bold', employees[i].eng_name).scrollIntoView().should('exist');
+          if (employees[i].eng_name === 'Bobrovskaya' || employees[i].eng_name === 'Parkhimovich') { //for employees with the info not in the 1-st line
+            cy.contains('td a',employees[i].eng_name).parent().parent().parent().siblings().eq(1).find('td').eq(3).scrollIntoView().should('have.text',employees[i].za_mes)
           }
           else {
-            cy.contains('td a',employees_eng[i]).parent().parent().parent().siblings().eq(0).find('td').eq(3).scrollIntoView().should('have.text',za_mes[i])
+            cy.contains('td a',employees[i].eng_name).parent().parent().parent().siblings().eq(0).find('td').eq(3).scrollIntoView().should('have.text',employees[i].za_mes)
           }
       }
   });

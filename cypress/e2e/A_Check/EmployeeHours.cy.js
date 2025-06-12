@@ -1,8 +1,5 @@
 describe('Employees hours verification', () => {
     let employees = Cypress.env('employees');
-    let employees_eng = Cypress.env('employees_eng');
-    let projects = Cypress.env('projects');
-    let employees_count = Cypress.env('employees_count');
     let manual_hours_check = Cypress.env('manual_hours_check');
     const currentDate = new Date();
     const dayOfMonth = currentDate.getDate();
@@ -46,7 +43,7 @@ describe('Employees hours verification', () => {
         }
     })
     // Condition to skip the test if the day of the month is less than 25
-    if (dayOfMonth >= 20) {
+    if (dayOfMonth >= 1) {
         
       it("Employees hours Project Types verification", { retries: 0 }, () => {
           // Step 5: Visiting the timesheet page
@@ -60,7 +57,7 @@ describe('Employees hours verification', () => {
         
           // Iterate through the employees array and click on each employee's list item
           for (let i = 0; i < employees.length; i++) {
-            cy.contains('.list-group-item', employees[i]).scrollIntoView().click();
+            cy.contains('.list-group-item', employees[i].name).scrollIntoView().click();
 
             cy.scrollUntilElementsStopIncreasing('tbody', 'tr');  //loading virtual list
 
@@ -79,7 +76,7 @@ describe('Employees hours verification', () => {
         
               // Log the specific types found for the current employee
               if (foundNonBillableTypes.length > 0) {
-                Failors.push(`${employees[i]}: ${foundNonBillableTypes.join(', ')}`);
+                Failors.push(`${employees[i].name}: ${foundNonBillableTypes.join(', ')}`);
               }
             });
           }
@@ -125,16 +122,16 @@ describe('Employees hours verification', () => {
 
           const Failors = [];
           for (let i = 0; i < employees.length; i++) {
-              cy.contains('.list-group-item', employees[i]).scrollIntoView().click();
-              cy.get('[data-bs-toggle="popover"]').eq(0).should('contain.text', employees[i]);
-              cy.get('[data-bs-toggle="popover"]').last().should('contain.text', employees[i]);
+              cy.contains('.list-group-item', employees[i].name).scrollIntoView().click();
+              cy.get('[data-bs-toggle="popover"]').eq(0).should('contain.text', employees[i].name);
+              cy.get('[data-bs-toggle="popover"]').last().should('contain.text', employees[i].name);
 
               cy.get('.pie>text').eq(1).then(($text) => {
                   let hours = $text.text().trim().substring(0, $text.text().trim().length - 1);
-                  cy.log("Hours found for employee " + employees[i] + " - " + hours);
+                  cy.log("Hours found for employee " + employees[i].name + " - " + hours);
 
-                  if (hours < required_hours) {
-                      Failors.push(employees[i] + " - Actual hours: " + hours);
+                  if (hours < required_hours*employees[i].fte) { //checking hours considering employee's FTE
+                      Failors.push(employees[i].name + " - Actual hours: " + hours);
                   }
               });
           }
@@ -145,7 +142,7 @@ describe('Employees hours verification', () => {
                   const dataString = Failors.join('\n');
                   cy.writeFile('cypress/fixtures/hours_failed.txt', dataString).then(() => {
                       cy.readFile('cypress/fixtures/hours_failed.txt').then((data) => {
-                          expect(Failors.length).to.be.lte(0, `Custom Error: Some employees have less than `+required_hours+`: \n${data}`);
+                          expect(Failors.length).to.be.lte(0, `Custom Error: Some employees have less than `+required_hours+`(considering 1 FTE)`+`: \n${data}`);
                       });
                   });
               } else {

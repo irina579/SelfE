@@ -3,7 +3,6 @@ import homePage, { validateContentIsNotEmpty, validatePageLabelsAreVisible } fro
 import profilePage from "../../Pages/profilePage";
 import timesheetPage from "../../Pages/timesheetPage";
 import utilizationPage from "../../Pages/utilizationPage";
-import salariesPage from "../../Pages/salaryPage";
 import salaryPage from "../../Pages/salaryPage";
 import projectsPage from "../../Pages/projectsPage";
 import rateCalculatorPage, { navigateToRateCalculatorPage } from "../../Pages/rateCalculatorPage";
