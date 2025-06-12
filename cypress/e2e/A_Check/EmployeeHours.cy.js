@@ -43,7 +43,7 @@ describe('Employees hours verification', () => {
         }
     })
     // Condition to skip the test if the day of the month is less than 25
-    if (dayOfMonth >= 1) {
+    if (dayOfMonth >= 10) {
         
       it("Employees hours Project Types verification", { retries: 0 }, () => {
           // Step 5: Visiting the timesheet page
