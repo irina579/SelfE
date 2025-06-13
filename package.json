@@ -2,6 +2,7 @@
   "devDependencies": {
     "@testing-library/cypress": "^10.0.2",
     "cypress": "^13.14.2",
+    "cypress-grep": "^3.0.4",
     "cypress-mochawesome-reporter": "^2.4.0"
   },
   "scripts": {

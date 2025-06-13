@@ -76,7 +76,7 @@ describe('Smoke check', () => {
       cy.contains('td', result_date).should('be.visible');
   });
 
-  it("User can see TimeSheet report", () => {
+  it("User can see TimeSheet report", { tags: ['smoke'] }, () => {
       cy.contains('.nav-link', "Reports").click();
       cy.contains('.dropdown-item', "Timesheet").click();
       cy.get('.list-group-item').should('have.length.greaterThan', 1);
