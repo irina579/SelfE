@@ -20,17 +20,17 @@ describe('Smoke tests POM', () => {
         cy.visit('/')
         loginPage.login();
     });
-    it('User can see Homepage', () => {
+    it('User can see Homepage',{ tags: ['smoke'] }, () => {
         homePage.validatePageLabelsAreVisible()
         homePage.validatePageLabelsAreVisible()
         homePage.validateContentIsNotEmpty()
     });  
-    it('User can see Profile Page', () => {
+    it('User can see Profile Page',{ tags: ['smoke'] }, () => {
         profilePage.navigateToProfile()
         profilePage.validatePageLabelsAreVisible()
         profilePage.validatePeriodIsCorrect()
     });  
-    it('User can see TimeSheet report', () => {
+    it('User can see TimeSheet report', { tags: ['smoke'] }, () => {
         timesheetPage.navigateToTimesheetReport()
         timesheetPage.validateContentExists()
         timesheetPage.validateEmployeesHoursAreVisible()
@@ -39,7 +39,7 @@ describe('Smoke tests POM', () => {
         utilizationPage.navigateToUtilizationReport()
         utilizationPage.validateContentExists()
     });  
-    it('User can see Salaries', () => {
+    it('User can see Salaries', { tags: ['smoke'] }, () => {
         salaryPage.navigateToSalaryPage()
         salaryPage.validateContentExists()
         salaryPage.validateSumCorrect()
