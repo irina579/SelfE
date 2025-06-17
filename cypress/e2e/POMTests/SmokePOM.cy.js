@@ -35,7 +35,7 @@ describe('Smoke tests POM', () => {
         timesheetPage.validateContentExists()
         timesheetPage.validateEmployeesHoursAreVisible()
     });  
-    it('User can see Utilization report', () => {
+    it('User can see Utilization report', { tags: ['smoke'] }, () => {
         utilizationPage.navigateToUtilizationReport()
         utilizationPage.validateContentExists()
     });  
@@ -44,7 +44,7 @@ describe('Smoke tests POM', () => {
         salaryPage.validateContentExists()
         salaryPage.validateSumCorrect()
     });  
-    it('User can see Projects', () => {
+    it('User can see Projects', { tags: ['smoke'] }, () => {
         projectsPage.navigateToProjectsPage()
         projectsPage.validateContentExists()
     });   
@@ -53,11 +53,11 @@ describe('Smoke tests POM', () => {
         rateCalculatorPage.validateSalaryUpdate()
         rateCalculatorPage.validateEmployeesSalaryFilled()
     });   
-    it('User can see Problems in reported hours page', () => {
+    it('User can see Problems in reported hours page', { tags: ['smoke'] }, () => {
         problemsInReportedHoursPage.navigateToProblemsInReportedHoursPage()
         problemsInReportedHoursPage.validateContentExists()
     }); 
-    it('User can see Contracts', () => {
+    it('User can see Contracts', { tags: ['smoke'] }, () => {
         contractsPage.navigateToContractsPage()
         contractsPage.validateContentExists()
     });  
