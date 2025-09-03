@@ -129,13 +129,14 @@ describe('Smoke check', () => {
       cy.contains('.nav-link', "CFR Management").click();
       cy.contains('.dropdown-item', "Salaries").click();
       for (let i = 0; i < employees.length; i++) {
-          cy.contains('.fw-bold', employees[i].eng_name).scrollIntoView().should('exist');
-          if (employees[i].eng_name === 'Bobrovskaya' || employees[i].eng_name === 'Parkhimovich') { //for employees with the info not in the 1-st line
-            cy.contains('td a',employees[i].eng_name).parent().parent().parent().siblings().eq(1).find('td').eq(3).scrollIntoView().should('have.text',employees[i].za_mes)
-          }
-          else {
-            cy.contains('td a',employees[i].eng_name).parent().parent().parent().siblings().eq(0).find('td').eq(3).scrollIntoView().should('have.text',employees[i].za_mes)
-          }
+        cy.contains('.fw-bold', employees[i].eng_name).scrollIntoView().should('exist');
+        const line = employees[i].line ?? 0;
+        cy.contains('td a',employees[i].eng_name)
+          .parent().parent().parent()
+          .siblings().eq(line)
+          .find('td').eq(3)
+          .scrollIntoView()
+          .should('have.text', employees[i].za_mes)
       }
   });
 

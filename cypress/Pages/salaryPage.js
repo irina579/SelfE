@@ -4,8 +4,7 @@ const employees = Cypress.env('employees');
 class salaryPage {
     elements = {
         employeeItem: (employee) => cy.contains('.fw-bold', employee),
-        sumItemCustom:(employee)=>cy.contains('td a',employee).parent().parent().parent().siblings().eq(1).find('td').eq(3),
-        sumItem:(employee)=>cy.contains('td a',employee).parent().parent().parent().siblings().eq(0).find('td').eq(3)
+        sumItem:(employee, line)=>cy.contains('td a',employee).parent().parent().parent().siblings().eq(line).find('td').eq(3)
 
     };
 
@@ -22,17 +21,10 @@ class salaryPage {
     validateSumCorrect() {
         employees.forEach((employee) => {
           const expectedSum = employee.za_mes;
-          if (employee.eng_name === 'Bobrovskaya' || employee.eng_name === 'Parkhimovich') { //for employees with the info not in the 1-st line
-            this.elements
-              .sumItemCustom(employee.eng_name)
+          this.elements
+              .sumItem(employee.eng_name, employee.line ? employee.line : 0)
               .scrollIntoView()
               .should('have.text', expectedSum);
-          } else {
-            this.elements
-              .sumItem(employee.eng_name)
-              .scrollIntoView()
-              .should('have.text', expectedSum);
-          }
         });
       };
 }
