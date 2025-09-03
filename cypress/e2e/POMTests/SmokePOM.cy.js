@@ -8,6 +8,7 @@ import projectsPage from "../../Pages/projectsPage";
 import rateCalculatorPage, { navigateToRateCalculatorPage } from "../../Pages/rateCalculatorPage";
 import problemsInReportedHoursPage from "../../Pages/problemsInReportedHoursPage";
 import contractsPage from "../../Pages/contractsPage";
+import checkUpReportPage from "../../Pages/checkUpReportPage";
 describe('Smoke tests POM', () => {
     let test_data
     before(() => {
@@ -56,6 +57,10 @@ describe('Smoke tests POM', () => {
     it('User can see Problems in reported hours page', { tags: ['smoke'] }, () => {
         problemsInReportedHoursPage.navigateToProblemsInReportedHoursPage()
         problemsInReportedHoursPage.validateContentExists()
+    }); 
+    it('User can see CheckUp Reports page', { tags: ['smoke'] }, () => {
+        checkUpReportPage.navigateToCheckUpReport()
+        checkUpReportPage.validateOpened()
     }); 
     it('User can see Contracts', { tags: ['smoke'] }, () => {
         contractsPage.navigateToContractsPage()

@@ -22,7 +22,7 @@ class homePage {
         salariesItem:()=>cy.contains('.dropdown-item', "Salaries"),
         contractsItem:()=>cy.contains('.dropdown-item', "Employee Contracts"),
         managementItem:()=>cy.contains('.dropdown-item', "Management"),
-        checkupReportsItem:()=>cy.contains('.dropdown-item', "Checkup Report"),
+        checkupReportItem:()=>cy.contains('.dropdown-item', "Checkup Report"),
         problemsInReportedHoursItem:()=>cy.contains('.dropdown-item', "Problems In Reported Hours"),
         
         //contect check

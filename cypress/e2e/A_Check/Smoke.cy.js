@@ -160,6 +160,12 @@ describe('Smoke check', () => {
       cy.get('.local-striped').should('not.exist');
     }
   });
+  it('User can see CheckUp Reports page', () => {
+    cy.contains('.nav-link', "Projects").click();
+    cy.contains('.dropdown-item', "Checkup Report").click();
+    cy.contains('h1','Checkup Report').should('exist');
+    cy.url().should('include', '/checkup-report');
+  });
   it("Contract page filters and search work properly (DDT)", () => {
     cy.contains('.nav-link', "CFR Management").click();
     cy.contains('.dropdown-item', "Employee Contracts").click();
