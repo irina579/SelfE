@@ -14,7 +14,7 @@ class homePage {
         projectsMenu: () => cy.contains('.nav-link', 'Projects'),
         compensationsMenu: () => cy.contains('.nav-link', 'Compensations'),
         reportsMenu: () => cy.contains('.nav-link', 'Reports'),
-        additionalMenu: () => cy.get('[aria-label="Additional Menu"]'),
+        additionalMenu: () => cy.get('.dropdown-trigger,'),
         profileDropdown: () => cy.contains('.dropdown-item', 'Profile'),
         //menu items
         timeSheetItem:()=>cy.contains('.dropdown-item', "Timesheet"),

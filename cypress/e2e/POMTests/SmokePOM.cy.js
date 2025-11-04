@@ -9,6 +9,9 @@ import rateCalculatorPage, { navigateToRateCalculatorPage } from "../../Pages/ra
 import problemsInReportedHoursPage from "../../Pages/problemsInReportedHoursPage";
 import contractsPage from "../../Pages/contractsPage";
 import checkUpReportPage from "../../Pages/checkUpReportPage";
+import new_dashboardPage from "../../Pages/new_dashboardPage";
+import new_timesheetPage from "../../Pages/new_timesheetPage";
+import new_profilePage from "../../Pages/new_profilePage";
 describe('Smoke tests POM', () => {
     let test_data
     before(() => {
@@ -21,6 +24,21 @@ describe('Smoke tests POM', () => {
         cy.visit('/')
         loginPage.login();
     });
+    it('User can see Dashboard page',{ tags: ['smoke'] }, () => {
+        new_dashboardPage.validatePageLabelsAreVisible()
+        new_dashboardPage.validatePageLabelsAreVisible()
+        new_dashboardPage.validateContentIsNotEmpty()
+    });  
+    it('User can see TimeSheet report', { tags: ['smoke'] }, () => {
+        new_timesheetPage.navigateToTimesheetReport()
+        new_timesheetPage.validateContentExists()
+        new_timesheetPage.validateEmployeesHoursAreVisible()
+    }); 
+    it.only('User can see Profile Page',{ tags: ['smoke'] }, () => {
+        new_profilePage.navigateToProfile()
+        new_profilePage.validatePageLabelsAreVisible()
+        new_profilePage.validatePeriodIsCorrect()
+    }); 
     it('User can see Homepage',{ tags: ['smoke'] }, () => {
         homePage.validatePageLabelsAreVisible()
         homePage.validatePageLabelsAreVisible()
@@ -40,7 +58,7 @@ describe('Smoke tests POM', () => {
         utilizationPage.navigateToUtilizationReport()
         utilizationPage.validateContentExists()
     });  
-    it.only('User can see Salaries', { tags: ['smoke'] }, () => {
+    it('User can see Salaries', { tags: ['smoke'] }, () => {
         salaryPage.navigateToSalaryPage()
         salaryPage.validateContentExists()
         salaryPage.validateSumCorrect()

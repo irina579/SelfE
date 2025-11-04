@@ -1,4 +1,5 @@
 const homePage = require("./homePage");
+const new_dashboardPage = require("./new_dashboardPage");
 
 class loginPage {
     elements = {
@@ -13,7 +14,7 @@ class loginPage {
         cy.wait(500);
         this.elements.loginBtn().click();
         cy.viewport(1920, 1080);
-        homePage.elements.toDoLabel().should('be.visible')
+        new_dashboardPage.elements.toDoLabel().should('be.visible')
     }
 }
 
