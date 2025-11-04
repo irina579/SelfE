@@ -12,6 +12,7 @@ import checkUpReportPage from "../../Pages/checkUpReportPage";
 import new_dashboardPage from "../../Pages/new_dashboardPage";
 import new_timesheetPage from "../../Pages/new_timesheetPage";
 import new_profilePage from "../../Pages/new_profilePage";
+import new_contractsPage from "../../Pages/new_contractsPage";
 describe('Smoke tests POM', () => {
     let test_data
     before(() => {
@@ -34,11 +35,20 @@ describe('Smoke tests POM', () => {
         new_timesheetPage.validateContentExists()
         new_timesheetPage.validateEmployeesHoursAreVisible()
     }); 
-    it.only('User can see Profile Page',{ tags: ['smoke'] }, () => {
+    it('User can see Profile Page',{ tags: ['smoke'] }, () => {
         new_profilePage.navigateToProfile()
         new_profilePage.validatePageLabelsAreVisible()
         new_profilePage.validatePeriodIsCorrect()
     }); 
+    it('User can see Contracts', { tags: ['smoke'] }, () => {
+        new_contractsPage.navigateToContractsPage()
+        new_contractsPage.validateContentExists()
+    });  
+    it.only('Contract page filters and search work properly (DDT)', () => {
+        new_contractsPage.navigateToContractsPage()
+        new_contractsPage.validateContentExists()
+        new_contractsPage.validateFilterAndSearchWorks(test_data.search_employee_exists,test_data.contractor,test_data.contractor,test_data.non_contractor)
+    });  
     it('User can see Homepage',{ tags: ['smoke'] }, () => {
         homePage.validatePageLabelsAreVisible()
         homePage.validatePageLabelsAreVisible()

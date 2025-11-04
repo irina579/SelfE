@@ -8,7 +8,7 @@ class homePage {
         dashboardMenu: () => cy.contains('.sidebar-label', 'Dashboard'),
         finDepDocsMenu: () => cy.contains('.sidebar-label', 'FinDep Docs'),
         clientsMenu: () => cy.contains('.sidebar-label', 'Clients'),
-        cfrManagementMenu: () => cy.contains('.sidebar-label', 'CFR Management'),
+        cfrManagementMenu: () => cy.contains('button', 'CFR Management'),
         groupsMenu: () => cy.contains('.sidebar-label', 'Groups'),
         rateCalculatorMenu: () => cy.contains('.sidebar-label', 'Rate calculator'),
         projectsMenu: () => cy.contains('.sidebar-label', 'Projects'),
