@@ -4,13 +4,14 @@ class new_timesheetPage {
         timesheetLabel: () => cy.contains('h1', 'Timesheet Reports'),
         teamMemberLabel: () => cy.contains('h3', 'Team Members'),
         searchTeamMemberInput: () => cy.get('input[placeholder="Search team members..."]'),
+        monthButton: () => cy.contains('button', 'Custom').prev(), //for custom check
 
         
         //userListLabel: () => cy.get('.list-group-item'),
         //pieLabel: ()=>cy.get('.rate-value'),
         userRowLabel: ()=>cy.get('tr.local-striped'),
         pieText: ()=>cy.get('tspan'),
-        employeeItem: (employee) => cy.contains('span', employee),
+        employeeItem: (employee) => cy.contains('.p-3',employee),
     };
 
     navigateToTimesheetReport() {
@@ -28,7 +29,12 @@ class new_timesheetPage {
     };
     validateEmployeesHoursAreVisible() {
         const employees = Cypress.env('employees');
+        const dayOfMonth = new Date().getDate();
         employees.forEach((employee) => {
+            if (dayOfMonth>6)
+            this.elements.monthButton().click();
+            else
+            this.elements.monthButton().prev().click();
             this.elements.employeeItem(employee.name).scrollIntoView().click(); // Replaced direct `cy.contains`
             this.elements.userRowLabel().eq(0).should('contain.text', employee.name);
             this.elements.userRowLabel().last().should('contain.text', employee.name);

@@ -50,6 +50,12 @@ Cypress.Commands.add('Login', () => {
     cy.contains('td',notsearch_employee).should('not.be.visible')
     cy.contains('tr', 'QA Pool (1)').should('exist');
   });
+  Cypress.Commands.overwrite('click', (originalFn, subject, ...args) => {
+    const $el = subject.first();
+    $el.css('outline', '3px solid red');
+    setTimeout(() => $el.css('outline', ''), 300); // remove highlight after 300ms
+    return originalFn(subject, ...args);
+  });  
   Cypress.Commands.add('scrollUntilElementsStopIncreasing', (containerSelector, itemSelector) => {
     let previousCount = 0;
   

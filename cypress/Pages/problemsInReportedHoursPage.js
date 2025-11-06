@@ -1,16 +1,15 @@
-
-const homePage = require("./homePage");
+const new_dashboardPage = require("./new_dashboardPage");
 class problemsInReportedHoursPage {
     elements = {
         problemsInReportedHoursLabel: () => cy.contains('h1','Problems in reported hours'),
         periodLabel: () => cy.findByText('Period'),
-        problemRow: () => cy.get('.local-striped'),
+        problemRow: () => cy.get('tbody tr'),
     };
 
     navigateToProblemsInReportedHoursPage() {
         cy.intercept('https://aim.belitsoft.com/api/problems-in-reported-hours').as('grid_list');
-        homePage.elements.reportsMenu().click()
-        homePage.elements.problemsInReportedHoursItem().click()
+        new_dashboardPage.elements.reportsMenu().click()
+        new_dashboardPage.elements.problemsInReportedHoursItem().click()
 
     };
     validateContentExists() {
