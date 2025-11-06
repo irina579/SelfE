@@ -14,10 +14,7 @@ class projectsPage {
     validateContentExists() {
         const projects = Cypress.env('projects');
         this.elements.filterButton().click();
-        //this.elements.statusField().click();
         this.elements.statusField().select('All Statuses');
-
-
         projects.forEach((project) => {
             this.elements.projectItem(project).scrollIntoView().should('exist'); 
         });
