@@ -1,7 +1,7 @@
 import loginPage from "../../Pages/loginPage"
 import homePage, { validateContentIsNotEmpty, validatePageLabelsAreVisible } from "../../Pages/homePage"
 import profilePage from "../../Pages/old_profilePage";
-import timesheetPage from "../../Pages/timesheetPage";
+import timesheetPage from "../../Pages/old_timesheetPage";
 import utilizationPage from "../../Pages/utilizationPage";
 import salaryPage from "../../Pages/salaryPage";
 import projectsPage from "../../Pages/projectsPage";
@@ -64,11 +64,11 @@ describe('Smoke tests POM', () => {
         timesheetPage.validateContentExists()
         timesheetPage.validateEmployeesHoursAreVisible()
     });  
-    it.skip('User can see Utilization report', { tags: ['smoke'] }, () => {
+    it.only('User can see Utilization report', { tags: ['smoke'] }, () => {
         utilizationPage.navigateToUtilizationReport()
         utilizationPage.validateContentExists()
     });  
-    it.skip('User can see Salaries', { tags: ['smoke'] }, () => {
+    it('User can see Salaries', { tags: ['smoke'] }, () => {
         salaryPage.navigateToSalaryPage()
         salaryPage.validateContentExists()
         salaryPage.validateSumCorrect()
