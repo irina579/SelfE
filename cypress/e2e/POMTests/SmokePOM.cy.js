@@ -73,7 +73,7 @@ describe('Smoke tests POM', () => {
         salaryPage.validateContentExists()
         salaryPage.validateSumCorrect()
     });  
-    it.only('User can see Projects', { tags: ['smoke'] }, () => {
+    it('User can see Projects', { tags: ['smoke'] }, () => {
         projectsPage.navigateToProjectsPage()
         projectsPage.validateContentExists()
     });   
