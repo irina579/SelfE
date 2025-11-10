@@ -7,12 +7,12 @@ import salaryPage from "../../Pages/salaryPage";
 import projectsPage from "../../Pages/projectsPage";
 import rateCalculatorPage, { navigateToRateCalculatorPage } from "../../Pages/rateCalculatorPage";
 import problemsInReportedHoursPage from "../../Pages/problemsInReportedHoursPage";
-import contractsPage from "../../Pages/contractsPage";
 import checkUpReportPage from "../../Pages/checkUpReportPage";
 import new_dashboardPage from "../../Pages/new_dashboardPage";
 import new_timesheetPage from "../../Pages/new_timesheetPage";
 import new_profilePage from "../../Pages/new_profilePage";
 import new_contractsPage from "../../Pages/new_contractsPage";
+import bonusesCalculationPage from "../../Pages/bonusesCalculationPage";
 describe('Smoke tests POM', () => {
     let test_data
     before(() => {
@@ -49,22 +49,7 @@ describe('Smoke tests POM', () => {
         new_contractsPage.validateContentExists()
         new_contractsPage.validateFilterAndSearchWorks(test_data.search_employee_exists,test_data.contractor,test_data.contractor,test_data.non_contractor)
     });  
-    it.skip('User can see Homepage',{ tags: ['smoke'] }, () => {
-        homePage.validatePageLabelsAreVisible()
-        homePage.validatePageLabelsAreVisible()
-        homePage.validateContentIsNotEmpty()
-    });  
-    it.skip('User can see Profile Page',{ tags: ['smoke'] }, () => {
-        profilePage.navigateToProfile()
-        profilePage.validatePageLabelsAreVisible()
-        profilePage.validatePeriodIsCorrect()
-    });  
-    it.skip('User can see TimeSheet report', { tags: ['smoke'] }, () => {
-        timesheetPage.navigateToTimesheetReport()
-        timesheetPage.validateContentExists()
-        timesheetPage.validateEmployeesHoursAreVisible()
-    });  
-    it.only('User can see Utilization report', { tags: ['smoke'] }, () => {
+    it('User can see Utilization report', { tags: ['smoke'] }, () => {
         utilizationPage.navigateToUtilizationReport()
         utilizationPage.validateContentExists()
     });  
@@ -76,7 +61,11 @@ describe('Smoke tests POM', () => {
     it('User can see Projects', { tags: ['smoke'] }, () => {
         projectsPage.navigateToProjectsPage()
         projectsPage.validateContentExists()
-    });   
+    }); 
+    it('User can see Bonuses Calculation Page', { tags: ['smoke'] }, () => {
+        bonusesCalculationPage.navigateToBonusesCalculationPage()
+        bonusesCalculationPage.validateContentExists()
+    });    
     it.skip('User can see Rate Calculator', () => {
         rateCalculatorPage.navigateToRateCalculatorPage()
         rateCalculatorPage.validateSalaryUpdate()
@@ -89,14 +78,5 @@ describe('Smoke tests POM', () => {
     it.skip('User can see CheckUp Reports page', { tags: ['smoke'] }, () => {
         checkUpReportPage.navigateToCheckUpReport()
         checkUpReportPage.validateOpened()
-    }); 
-    it.skip('User can see Contracts', { tags: ['smoke'] }, () => {
-        contractsPage.navigateToContractsPage()
-        contractsPage.validateContentExists()
-    });  
-    it.skip('Contract page filters and search work properly (DDT)', () => {
-        contractsPage.navigateToContractsPage()
-        contractsPage.validateContentExists()
-        contractsPage.validateFilterAndSearchWorks(test_data.search_employee_exists,test_data.contractor,test_data.contractor,test_data.non_contractor)
-    });        
+    });      
 })

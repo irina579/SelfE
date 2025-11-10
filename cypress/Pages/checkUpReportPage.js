@@ -1,4 +1,4 @@
-const homePage = require("./homePage");
+const new_dashboardPage = require("./new_dashboardPage");
 
 class checkUpReportPage {
     elements = {
@@ -6,8 +6,8 @@ class checkUpReportPage {
     };
 
     navigateToCheckUpReport() {
-        homePage.elements.projectsMenu().click();
-        homePage.elements.checkupReportItem().click();
+        new_dashboardPage.elements.projectsMenu().click();
+        new_dashboardPage.elements.checkupReportItem().click();
     };
 
     validateOpened() {

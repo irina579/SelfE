@@ -5,9 +5,6 @@ class salaryPage {
     elements = {
         employeeItem: (employee) => cy.contains('a', employee),
         sumItem: (employee) => cy.contains('td a',employee).closest('tr').find('td').eq(1).find('.text-sm.font-bold.text-gray-900')
-        
-        //sumItem:(employee, line)=>cy.contains('td a',employee).parent().parent().parent().siblings().eq(line).find('td').eq(3)
-
     };
 
     navigateToSalaryPage() {

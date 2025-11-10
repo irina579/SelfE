@@ -22,8 +22,9 @@ class homePage {
         salariesItem:()=>cy.contains('.sidebar-label', "Salaries"),
         contractsItem:()=>cy.contains('.sidebar-label', "Employee Contracts"),
         managementItem:()=>cy.contains('.sidebar-label', /^Management$/),
-        checkupReportItem:()=>cy.contains('.sidebar-label', "Checkup Report"),
+        //checkupReportItem:()=>cy.contains('.sidebar-label', "Checkup Report"),
         problemsInReportedHoursItem:()=>cy.contains('.sidebar-label', "Problems In Reported Hours"),
+        bonusesCalculationItem:()=>cy.contains('.sidebar-label', "Bonuses Calculation"),
         
         //contect check
         percentPie: () => cy.get('.rate-value'), //change naming
