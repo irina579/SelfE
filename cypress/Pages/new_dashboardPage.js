@@ -1,16 +1,16 @@
-class homePage {
+class new_dashboardPage {
     elements = {
         worktrackLabel: () => cy.findByText('Work Tracks'),
         utilizationLabel: ()=>cy.contains('h3', 'Utilization'),
         assigmentsLabel: ()=>cy.contains('h3','Assignments'),
         toDoLabel:()=>cy.findByText('Your Tasks'), //change naming
 //left menu
-        dashboardMenu: () => cy.contains('button', 'Dashboard'),
+        dashboardMenu: () => cy.contains('.sidebar-label', 'Dashboard'),
         finDepDocsMenu: () => cy.contains('button', 'FinDep Docs'),
-        clientsMenu: () => cy.contains('button', 'Clients'),
+        clientsMenu: () => cy.contains('.sidebar-label', 'Clients'),
         cfrManagementMenu: () => cy.contains('button', 'CFR Management'),
-        groupsMenu: () => cy.contains('button', 'Groups'),
-        rateCalculatorMenu: () => cy.contains('button', 'Rate calculator'),
+        groupsMenu: () => cy.contains('.sidebar-label', 'Groups'),
+        rateCalculatorMenu: () => cy.contains('.sidebar-label', 'Rate calculator'),
         projectsMenu: () => cy.contains('button', 'Projects'),
         compensationsMenu: () => cy.contains('button', 'Compensations'),
         reportsMenu: () => cy.contains('button', 'Reports'),
@@ -42,4 +42,4 @@ class homePage {
     };
 }
 
-module.exports = new homePage();
+module.exports = new new_dashboardPage();

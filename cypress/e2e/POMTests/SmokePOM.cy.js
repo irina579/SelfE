@@ -1,7 +1,4 @@
 import loginPage from "../../Pages/loginPage"
-import homePage, { validateContentIsNotEmpty, validatePageLabelsAreVisible } from "../../Pages/homePage"
-import profilePage from "../../Pages/old_profilePage";
-import timesheetPage from "../../Pages/old_timesheetPage";
 import utilizationPage from "../../Pages/utilizationPage";
 import salaryPage from "../../Pages/salaryPage";
 import projectsPage from "../../Pages/projectsPage";
@@ -66,10 +63,10 @@ describe('Smoke tests POM', () => {
         bonusesCalculationPage.navigateToBonusesCalculationPage()
         bonusesCalculationPage.validateContentExists()
     });    
-    it.skip('User can see Rate Calculator', () => {
+    it('User can see Rate Calculator', () => {
         rateCalculatorPage.navigateToRateCalculatorPage()
         rateCalculatorPage.validateSalaryUpdate()
-        rateCalculatorPage.validateEmployeesSalaryFilled()
+        //rateCalculatorPage.validateEmployeesSalaryFilled() //temporary disabled because of bug
     });   
     it('User can see Problems in reported hours page', { tags: ['smoke'] }, () => {
         problemsInReportedHoursPage.navigateToProblemsInReportedHoursPage()

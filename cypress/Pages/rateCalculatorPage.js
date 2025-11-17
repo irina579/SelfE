@@ -1,8 +1,8 @@
-const homePage = require("./homePage");
+const new_dashboardPage = require("./new_dashboardPage");
 const zero_rate = Cypress.env('zero_rate_1000');
 class rateCalculatorPage {
     elements = {
-        rateCalculatorLabel: () => cy.contains('h1','Rate Calculator'),
+        rateCalculatorLabel: () => cy.contains('div','Overarching Settings'),
         salaryField: ()=>cy.contains('td','Salary').next('td').eq(0).find('input'),
         zeroRateLabel: ()=>cy.contains('div','Zero Rate:').next().eq(0),
         employeePlaceHolder: (employee)=>cy.contains('span', employee),
@@ -10,7 +10,7 @@ class rateCalculatorPage {
     };
 
     navigateToRateCalculatorPage() {
-        homePage.elements.rateCalculatorMenu().click(),
+        new_dashboardPage.elements.rateCalculatorMenu().click(),
         this.elements.rateCalculatorLabel().should('be.visible')
     };
     validateSalaryUpdate() {
