@@ -71,6 +71,7 @@ describe('Smoke tests POM', () => {
     it('User can see Problems in reported hours page', { tags: ['smoke'] }, () => {
         problemsInReportedHoursPage.navigateToProblemsInReportedHoursPage()
         problemsInReportedHoursPage.validateContentExists()
+        problemsInReportedHoursPage.checkThereAreNoProblemsEOMonth()
     }); 
     it.skip('User can see CheckUp Reports page', { tags: ['smoke'] }, () => {
         checkUpReportPage.navigateToCheckUpReport()

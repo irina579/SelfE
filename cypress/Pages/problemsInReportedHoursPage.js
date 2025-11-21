@@ -21,8 +21,9 @@ class problemsInReportedHoursPage {
     };
     checkThereAreNoProblemsEOMonth(){
         const currentDate = new Date();
+        const dayOfMonth = currentDate.getDate();
         if (dayOfMonth >= 30) {
-            this.elements.problemRow.should('not.exist');
+            this.elements.problemRow().should('not.exist');
           }
     };
 }

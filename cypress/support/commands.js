@@ -32,7 +32,7 @@ Cypress.Commands.add('Login', () => {
         cy.get('[placeholder="Password"]').type(Cypress.env("password"), {delay: 10})
         cy.wait(500)
         cy.contains('.btn','Login').click()
-        cy.contains('.card-header', "Todo List").should('be.visible')},
+        cy.findByText('Your Tasks').should('be.visible')},
       {cacheAcrossSpecs: true}
     ) 
     cy.visit('/')
