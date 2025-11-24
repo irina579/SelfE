@@ -78,3 +78,32 @@ describe('Smoke tests POM', () => {
         checkUpReportPage.validateOpened()
     });      
 })
+describe.only('Hours verification POM', () => {
+    let test_data
+    let nonBillableTypes = [];
+    const dayOfMonth = new Date().getDate();
+    before(() => {
+       //Cypress.session.clearAllSavedSessions();
+        cy.fixture('test_data').then((data) => {
+          test_data = data;
+          })
+    });
+    beforeEach(() => {
+        cy.visit('/')
+        // Step 1: Intercept the automatically triggered request and store its response
+        cy.intercept('GET', 'https://aim.belitsoft.com/api/non-billable-types', (req) => {
+            req.continue((res) => {
+            nonBillableTypes = res.body.map(item => item.name); // Extract 'name' field and store in nonBillableTypes
+            });
+        }).as('getNonBillableTypes');   
+        // Step 2: Perform login
+        loginPage.login();
+        // Step 4: Wait for the automatically triggered request after login to complete
+        cy.wait('@getNonBillableTypes');
+    });
+    if (dayOfMonth >= 10) {
+        it('Employees hours Project Types verification', { retries: 0, tags: ['smoke'] }, () => {
+            new_timesheetPage.CheckNonBillableTypes(nonBillableTypes);
+        });
+    };  
+})
