@@ -78,7 +78,7 @@ describe('Smoke tests POM', () => {
         checkUpReportPage.validateOpened()
     });      
 })
-describe.only('Hours verification POM', () => {
+describe('Hours verification POM', () => {
     let test_data
     let nonBillableTypes = [];
     const dayOfMonth = new Date().getDate();
