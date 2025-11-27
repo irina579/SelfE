@@ -101,6 +101,66 @@ class new_timesheetPage {
             }
         });
     };
-}
+    ValidateTrackedHours(nonBillableTypes) {
+        const employees = this.getEmployees();
+        const bobrovskayaFte = (this.getEmployees() || [])
+  .find(emp => emp.name === 'Бобровская')?.fte;
+        let manual_hours_check = Cypress.env('manual_hours_check');
+        cy.intercept('https://aim.belitsoft.com/api/profile/bonus-report').as('grid_list');
+        // Visiting the profile page
+        cy.visit('https://aim.belitsoft.com/profile');
+        cy.wait('@grid_list').then(({ response }) => {
+            expect(response.statusCode).to.eq(200);
+            let planned_hours = response.body[0].plan/bobrovskayaFte;
+            cy.log("The number of Planned hours came from BE - " + planned_hours);
+            let required_hours;
+  
+            if (manual_hours_check) {
+                required_hours = Cypress.env('required_hours');
+            } else {
+                required_hours = planned_hours - 8;
+            }
+  
+            cy.log("Required hours - " + required_hours);
+            cy.visit('https://aim.belitsoft.com/reports/timesheet');
 
+            const Failors = [];
+            employees.forEach((employee) => {
+                this.elements.employeeItem(employee.name).scrollIntoView().click();
+                this.elements.userRowLabel().eq(0).should('contain.text', employee.name);
+                this.elements.userRowLabel().last().should('contain.text', employee.name);
+                //this.elements.pieText().first().should('not.have.text', '0h');
+
+                this.elements.pieText().first().then(($text) => {
+                    let hours = $text.text().trim().substring(0, $text.text().trim().length - 1);
+                    cy.log("Hours found for employee " + employee.name + " - " + hours);
+
+                    if (hours < required_hours * employee.fte) { //checking hours considering employee's FTE
+                        Failors.push(`${employee.name} - Actual hours: ${hours}`);
+                    }
+                });
+            });
+  
+            cy.then(() => {
+                if (Failors.length > 0) {
+                    cy.log('Failures:', Failors);
+                    const dataString = Failors.join('\n');
+                    cy.writeFile('cypress/fixtures/hours_failed.txt', dataString).then(() => {
+                        cy.readFile('cypress/fixtures/hours_failed.txt').then((data) => {
+                            expect(Failors.length).to.be.lte(0, `Custom Error: Some employees have less than `+required_hours+`(considering 1 FTE)`+`: \n${data}`);
+                        });
+                    });
+                } else {
+                    cy.log('All employees have sufficient hours.');
+                }
+            });    
+          
+    });
+
+
+
+
+    
+}
+}
 module.exports = new new_timesheetPage();

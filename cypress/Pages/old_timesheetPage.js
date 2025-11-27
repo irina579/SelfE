@@ -26,6 +26,7 @@ class timesheetPage {
             this.elements.pieText().eq(1).should('not.contain.text', '0%');
         });
     };
+    
 }
 
 module.exports = new timesheetPage();
