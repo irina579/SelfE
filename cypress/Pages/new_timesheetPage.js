@@ -125,6 +125,7 @@ class new_timesheetPage {
             cy.visit('https://aim.belitsoft.com/reports/timesheet');
 
             const Failors = [];
+            const totalListOfHours = [];
             employees.forEach((employee) => {
                 this.elements.employeeItem(employee.name).scrollIntoView().click();
                 this.elements.userRowLabel().eq(0).should('contain.text', employee.name);
@@ -134,6 +135,7 @@ class new_timesheetPage {
                 this.elements.pieText().first().then(($text) => {
                     let hours = $text.text().trim().substring(0, $text.text().trim().length - 1);
                     cy.log("Hours found for employee " + employee.name + " - " + hours);
+                    totalListOfHours.push(`${employee.name} - Actual hours: ${hours}`);
 
                     if (hours < required_hours * employee.fte) { //checking hours considering employee's FTE
                         Failors.push(`${employee.name} - Actual hours: ${hours}`);
@@ -151,7 +153,10 @@ class new_timesheetPage {
                         });
                     });
                 } else {
-                    cy.log('All employees have sufficient hours.');
+                    cy.log('All employees have sufficient hours!');
+                    totalListOfHours.forEach((h,i) => {
+                        cy.log(`${i+1}. ${h}`);
+                      });
                 }
             });    
           

@@ -34,12 +34,12 @@ describe('Hours verification POM', () => {
         // Step 4: Wait for the automatically triggered request after login to complete
         cy.wait('@getNonBillableTypes');
     });
-    if (dayOfMonth >= 20) {
+    if (dayOfMonth >= 20 || dayOfMonth <= 5) {
         it('Employees hours Project Types verification', { retries: 0, tags: ['smoke'] }, () => {
             new_timesheetPage.CheckNonBillableTypes(nonBillableTypes);
         });
     };  
-    it.only('Employees tracked hours verification', { retries: 0, tags: ['smoke'] }, () => {
+    it('Employees tracked hours verification', { retries: 0, tags: ['smoke'] }, () => {
         new_timesheetPage.ValidateTrackedHours();
     });
 })
