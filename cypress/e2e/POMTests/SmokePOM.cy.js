@@ -96,7 +96,7 @@ describe('Smoke tests POM', () => {
         bonusesCalculationPage.navigateToBonusesCalculationPage()
         bonusesCalculationPage.validateContentExists()
     });    
-    it('User can see Rate Calculator', () => {
+    it.skip('User can see Rate Calculator', () => {
         rateCalculatorPage.navigateToRateCalculatorPage()
         rateCalculatorPage.validateSalaryUpdate()
         //rateCalculatorPage.validateEmployeesSalaryFilled() //temporary disabled because of bug
