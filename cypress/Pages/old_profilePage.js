@@ -1,4 +1,4 @@
-const homePage = require("./homePage");
+const homePage = require("./homePage"); //to be deleted
 
 class profilePage {
     elements = {
