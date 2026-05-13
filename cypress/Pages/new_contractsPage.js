@@ -3,11 +3,11 @@ const pool_count= Cypress.env('employees').length+1; //kate Zh. is missing in co
 class new_contractsPage {
     elements = {
         poolCounter:()=>cy.contains('p', 'Active Contracts').next('div').find('p').first(),       
-        employeeItem: (employee) => cy.contains('h3', employee),
+        employeeItem: (employee) => cy.contains('span', employee),
         searchField:()=> cy.findByPlaceholderText('Search by name...'),
         filterField:()=>cy.contains('.multiselect__placeholder', 'Select types...'),
         filterDropdown:(filter)=>cy.contains('li>span',filter),
-        employeeRow:(employee)=>cy.contains('h3',employee),
+        employeeRow:(employee)=>cy.contains('span',employee),
         clearAllFilters:()=>cy.contains('button', 'Clear All'),
     };
 
